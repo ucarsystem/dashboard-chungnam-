@@ -65,7 +65,7 @@ if 조회버튼 and driver_id:
 
         st.markdown(f"""
         <div style='display: flex; align-items: center;'>
-            <img src='https://img.icons8.com/color/48/bus.png' style='margin-right: 10px;'>
+            <img src='https://img.icons8.com/color/48/bus.png' style='margin-right: 15px;'>
             <div>
                 <div><strong>대표 차량:</strong> {rep_car}</div>
                 <div><strong>노선:</strong> {rep_route}</div>
