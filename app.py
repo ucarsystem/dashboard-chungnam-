@@ -49,7 +49,7 @@ if 조회버튼 and driver_id:
     tang_filtered = df_tang[df_tang['운전자번호'] == driver_id]
     if not tang_filtered.empty:
         rep_car = tang_filtered.groupby('차량번호4')['주행거리(km)'].sum().idxmax()
-        rep_course = tang_filtered.groupby('코스')['주행거리(km)'].sum().idxmax()
+        rep_course = int(tang_filtered.groupby('코스')['주행거리(km)'].sum().idxmax())
         rep_route = tang_filtered[tang_filtered['차량번호4'] == rep_car]['노선번호'].mode()[0]
 
         grade_color = {"S": "🟩", "A": "🟩", "B": "🟨", "C": "🟨", "D": "🟥", "F": "🟥"}
@@ -65,7 +65,7 @@ if 조회버튼 and driver_id:
 
         st.markdown(f"""
         <div style='display: flex; align-items: center;'>
-            <img src='https://img.icons8.com/color/48/bus.png' style='margin-right: 15px;'>
+            <img src='https://img.icons8.com/color/48/bus.png';'>
             <div>
                 <div><strong>대표 차량:</strong> {rep_car}</div>
                 <div><strong>노선:</strong> {rep_route}</div>
@@ -78,20 +78,23 @@ if 조회버튼 and driver_id:
         driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
         driver_info['급가속(회/100km)'] = round(((driver_info['급가속횟수'] * 100) / driver_info['주행거리(km)']),2)
         driver_info['급감속(회/100km)'] = round(((driver_info['급감속횟수'] * 100) / driver_info['주행거리(km)']),2)
-        grade_color = get_grade_color(driver_info['등급'].values[0])
 
-        col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 2])
-        col1.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 28px; font-weight: bold; color: {grade_color};'>{driver_info['등급']}</div>", unsafe_allow_html=True)
-        with col2:
-            st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info['주행거리(km)']:,.0f} km</div><div style='font-weight:lighter;'>주행거리</div>", unsafe_allow_html=True)
-        with col3:
-            st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info['연비(km/m3)']:.2f}</div><div style='font-weight:lighter;'>연비</div>", unsafe_allow_html=True)
-        with col4:
-            st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info['공회전율(%)']:.1f}%</div><div style='font-weight:lighter;'>공회전율</div>", unsafe_allow_html=True)
-        with col5:
-            st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info['급감속(회/100km)']:.2f}</div><div style='font-weight:lighter;'>안전지수(급감속)</div>", unsafe_allow_html=True)
-        with col6:
-            st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info['평균속도']:.1f} km/h</div><div style='font-weight:lighter;'>평균속도</div>", unsafe_allow_html=True)
+        if not driver_info.empty:
+            driver_info_df = driver_info.iloc[0]
+            grade_color = get_grade_color(driver_info_df['등급'])
+
+            col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 2])
+            col1.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 28px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
+            with col2:
+                st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['주행거리(km)']:,.0f} km</div><div style='font-weight:lighter;'>주행거리</div>", unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['연비(km/m3)']:.2f}</div><div style='font-weight:lighter;'>연비</div>", unsafe_allow_html=True)
+            with col4:
+                st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['공회전율(%)']:.1f}%</div><div style='font-weight:lighter;'>공회전율</div>", unsafe_allow_html=True)
+            with col5:
+                st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['급감속(회/100km)']:.2f}</div><div style='font-weight:lighter;'>안전지수(급감속)</div>", unsafe_allow_html=True)
+            with col6:
+                st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['평균속도']:.1f} km/h</div><div style='font-weight:lighter;'>평균속도</div>", unsafe_allow_html=True)
 
     ### 2. 주행 코스별 운행기록 ###
     st.header("코스별 나의 운행 데이터")
