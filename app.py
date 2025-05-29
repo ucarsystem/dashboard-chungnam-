@@ -78,7 +78,7 @@ if 조회버튼 and driver_id:
         driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
         driver_info['급가속(회/100km)'] = round(((driver_info['급가속횟수'] * 100) / driver_info['주행거리(km)']),2)
         driver_info['급감속(회/100km)'] = round(((driver_info['급감속횟수'] * 100) / driver_info['주행거리(km)']),2)
-        grade_color = get_grade_color(driver_info['등급'])
+        grade_color = get_grade_color(driver_info['등급'].values[0])
 
         col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 2])
         col1.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 28px; font-weight: bold; color: {grade_color};'>{driver_info['등급']}</div>", unsafe_allow_html=True)
