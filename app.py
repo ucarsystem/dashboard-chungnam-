@@ -42,7 +42,7 @@ logo_base64 = get_base64_image(logo_path)
 
 st.markdown(f"""
     <div style='display: flex; align-items: center; gap: 10px;'>
-        <img src="data:image/png;base64,{logo_base64}" style='width:40px; height:40px;'>
+        <img src="data:image/png;base64,{logo_base64}" style='height:32px; width:auto;'>
         <h1 style='margin:0; font-size:32px;'>충남고속_나만의 연비 대시보드</h1>
     </div>
     <hr style='border:1px solid #ccc; margin-top:10px;'>
