@@ -107,7 +107,7 @@ if 조회버튼 and user_input:
 
             st.markdown(f"""
             <div style='display: flex; align-items: center; gap:12px'>
-                <img src='https://img.icons8.com/color/48/bus.png'; style='height:30px; width:auto;'>
+                <img src='https://img.icons8.com/color/48/bus.png'; style='height:50px; width:auto;'>
                 <div>
                     <div><strong>대표 차량:</strong> {rep_car}</div>
                     <div><strong>노선:</strong> {rep_route}</div>
@@ -205,6 +205,7 @@ if 조회버튼 and user_input:
         # 막대그래프
         fig = px.bar(
             course_filtered,
+            title_text = "",
             x='코스',
             y=['연비', '평균연비'],
             barmode='group',
@@ -248,7 +249,7 @@ if 조회버튼 and user_input:
         ### 4. 일별 주행기록 ###
         st.subheader("일별 주행기록")
 
-        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비']).agg({
+        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비설정']).agg({
             '주행거리(km)': 'sum',
             '연료소모량(m3': 'sum',
             '구간3비율(%) 40-60 시간(초)': 'sum',
@@ -264,7 +265,7 @@ if 조회버튼 and user_input:
             daily_grouped = daily_grouped.fillna('')
 
             def grade(row):
-                ratio = row['연비'] / row['목표연비']
+                ratio = row['연비'] / row['목표연비설정']
                 if ratio >= 1.0: return 'S'
                 elif ratio >= 0.95: return 'A'
                 elif ratio >= 0.9: return 'B'
