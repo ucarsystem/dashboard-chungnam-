@@ -205,7 +205,6 @@ if 조회버튼 and user_input:
         # 막대그래프
         fig = px.bar(
             course_filtered,
-            title_text = "",
             x='코스',
             y=['연비', '평균연비'],
             barmode='group',
