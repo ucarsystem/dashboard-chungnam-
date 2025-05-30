@@ -161,8 +161,43 @@ if 조회버튼 and driver_id:
     # 개인 데이터와 병합 (코스 기준)
     course_filtered = course_filtered.merge(course_mean_grade, on='코스', how='left')
 
-    fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
-    st.plotly_chart(fig)
+    # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
+    colors = ['#E07A00', '#FFB347']  # 주황 계열 (로고 색과 유사)
+
+    # 막대그래프
+    fig = px.bar(
+        course_filtered,
+        x='코스',
+        y=['연비', '평균연비'],
+        barmode='group',
+        labels={'value':'연비', 'variable':'코스별평균연비'},
+        color_discrete_sequence=colors
+    )
+
+    # X축 눈금 표시
+    fig.update_xaxes(
+        tickmode='linear',  # 모든 코스 번호 다 보여주기
+        dtick=1,            # 1단위 간격으로
+        title_text='코스'
+    )
+
+    # Y축 레이블
+    fig.update_yaxes(title_text='연비(km/ℓ)')
+
+    # 레이아웃 스타일
+    fig.update_layout(
+        title="나의 연비 vs 코스 평균 연비",
+        title_x=0.5,
+        font=dict(size=14),
+        legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+        plot_bgcolor='white'
+    )
+
+    # 출력
+    # st.plotly_chart(fig)
+
+    # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
+    # st.plotly_chart(fig)
 
     ### 4. 일별 주행기록 ###
     st.subheader("일별 주행기록")
