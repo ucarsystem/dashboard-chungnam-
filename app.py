@@ -91,7 +91,7 @@ if 조회버튼 and user_input:
 
         if not driver_info.empty:
             driver_info_df = driver_info.iloc[0]
-            rep_car = driver_info_df['주차량량']
+            rep_car = driver_info_df['주차량']
             rep_course = driver_info_df['주코스']
             rep_route = driver_info_df['주노선']
 
