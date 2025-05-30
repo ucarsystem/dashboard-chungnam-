@@ -30,13 +30,22 @@ month_input = 6
 
 #출력시작
 st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
-col1, col2 = st.columns([1, 8])
-with col1:
-    st.image("./logo.png", width=80)  # 로고 파일 경로 및 크기 설정
+logo_path = "./logo.png"
+st.markdown(f"""
+    <div style='display: flex; align-items: center; gap: 10px;'>
+        <img src="data:image/png;base64,{st.image(logo_path, output_format="png").data.decode()}" style='width:40px; height:40px;'>
+        <h1 style='margin:0; font-size:32px;'>충남고속_나만의 연비 대시보드</h1>
+    </div>
+    <hr style='border:1px solid #ccc; margin-top:10px;'>
+""", unsafe_allow_html=True)
 
-with col2:
-    st.markdown("<h1 style='margin-bottom:0;'>충남고속_나만의 연비 대시보드</h1>", unsafe_allow_html=True)
-    st.markdown("---")  # 구분선
+# col1, col2 = st.columns([1, 8])
+# with col1:
+#     st.image("./logo.png", width=80)  # 로고 파일 경로 및 크기 설정
+
+# with col2:
+#     st.markdown("<h1 style='margin-bottom:0;'>충남고속_나만의 연비 대시보드</h1>", unsafe_allow_html=True)
+st.markdown("---")  # 구분선
 
 driver_id = st.text_input("운전자번호를 입력하세요", "")
 조회버튼 = st.button("조회하기")
