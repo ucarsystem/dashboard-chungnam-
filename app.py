@@ -217,7 +217,7 @@ if 조회버튼 and driver_id:
 
     ### 4. 일별 주행기록 ###
     st.subheader("일별 주행기록")
-    daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스']).agg({
+    daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비']).agg({
         '주행거리(km)': 'sum',
         '연료소모량(m3': 'sum',
         '구간3비율(%) 40-60 시간(초)': 'sum',
@@ -226,16 +226,33 @@ if 조회버튼 and driver_id:
     }).reset_index()
 
     daily_grouped['연비'] = daily_grouped['주행거리(km)'] / daily_grouped['연료소모량(m3']
-    def grade(x):
-        ratio = x / 3.0
+
+    def grade(row):
+        ratio = row['연비'] / row['목표연비']
         if ratio >= 1.0: return 'S'
         elif ratio >= 0.95: return 'A'
         elif ratio >= 0.9: return 'B'
         elif ratio >= 0.85: return 'C'
         elif ratio >= 0.8: return 'D'
         else: return 'F'
-    daily_grouped['등급'] = daily_grouped['연비'].apply(grade)
+
+    daily_grouped['등급'] = daily_grouped.apply(grade, axis=1)
     daily_grouped['경제속도구간(%)'] = ((daily_grouped['구간3비율(%) 40-60 시간(초)'] + daily_grouped['구간4비율(%) 60-80 시간(초)']) / daily_grouped['공회전,웜업제외 시간']) * 100
 
-    st.dataframe(daily_grouped[['DATE', '차량번호4', '코스', '주행거리(km)', '연비', '등급', '경제속도구간(%)']])
+    # 포맷팅
+    daily_grouped = daily_grouped[daily_grouped['주행거리(km)'] >= 1]  # 1 미만 제거
+    daily_grouped['DATE'] = pd.to_datetime(daily_grouped['DATE']).dt.strftime('%-m/%-d')
+    daily_grouped['주행일'] = daily_grouped['DATE'] 
+    daily_grouped['차량번호'] = daily_grouped['차량번호4']
+    daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
+    daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"{x:.2f}")
+    daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
+
+    # 6출력
+    st.markdown(
+        daily_grouped[['주행일', '차량번호', '코스', '주행거리(km)', '연비', '등급', '경제속도구간(%)']].to_html(index=False, escape=False),
+        unsafe_allow_html=True
+    )
+
+
 
