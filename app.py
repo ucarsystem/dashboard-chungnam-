@@ -54,7 +54,7 @@ if 조회버튼 and driver_id:
     driver_id = int(driver_id)
     
     ### 1. 전체 지표 ###
-    st.header("전체 주행 지표")
+    st.subheader("📌전체 주행 지표")
     tang_filtered = df_tang[df_tang['운전자번호'] == driver_id]
     if not tang_filtered.empty:
         rep_car = tang_filtered.groupby('차량번호4')['주행거리(km)'].sum().idxmax()
@@ -73,8 +73,8 @@ if 조회버튼 and driver_id:
                 return "red"
 
         st.markdown(f"""
-        <div style='display: flex; align-items: center;'>
-            <img src='https://img.icons8.com/color/48/bus.png';'>
+        <div style='display: flex; align-items: center; gap:12px'>
+            <img src="https://img.icons8.com/color/48/bus.png';" style="width:30px; height:30px;">
             <div>
                 <div><strong>대표 차량:</strong> {rep_car}</div>
                 <div><strong>노선:</strong> {rep_route}</div>
@@ -82,6 +82,9 @@ if 조회버튼 and driver_id:
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+        #간격
+        st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
 
         driver_info = df_driver[df_driver['운전자ID'] == driver_id].copy()
         driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
@@ -93,7 +96,8 @@ if 조회버튼 and driver_id:
             grade_color = get_grade_color(driver_info_df['등급'])
 
             col1, col2, col3, col4, col5, col6 = st.columns(6)
-            col1.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 30px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
+            with col1:
+                st.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 60px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
             with col2:
                 st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['주행거리(km)']:,.0f} km</div><div>주행거리</div>", unsafe_allow_html=True)
             with col3:
@@ -106,18 +110,51 @@ if 조회버튼 and driver_id:
                 st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['평균속도']:.1f} km/h</div><div>평균속도</div>", unsafe_allow_html=True)
 
     ### 2. 주행 코스별 운행기록 ###
-    st.header("코스별 나의 운행 데이터")
+    st.subheader("코스별 나의 운행 데이터")
+
+    #반환함수수
+    def format_course_table(df):
+        df = df.copy()
+        df['주행거리'] = df['주행거리'].apply(lambda x: f"{int(x):,} km")
+        df['연비'] = df['연비'].apply(lambda x: f"<span style='color:blue;'>{x:.2f}</span>")
+        df['급감속'] = df['급감속'].apply(lambda x: f"{x:.2f}")
+        df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.2f}")
+        df['공회전율(%)'] = df['공회전율(%)'].apply(lambda x: f"{x:.1f}%")
+        df['저속구간(%)'] = df['저속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
+        df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span style='color:green; font-weight:bold;'>{x*100:.1f}%</span>")
+        df['과속구간(%)'] = df['과속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
+        df['등수'] = df['등수'].apply(lambda x: f"<b>{x}등</b>")
+        return df
+    
     course_filtered = df_course_driver[df_course_driver['운전자번호'] == driver_id].copy()
     course_filtered['저속구간(%)'] = course_filtered['구간1비율'] + course_filtered['구간2비율']
     course_filtered['경제구간(%)'] = course_filtered['구간3비율'] + course_filtered['구간4비율']
     course_filtered['과속구간(%)'] = course_filtered['구간5비율'] + course_filtered['구간6비율'] + course_filtered['구간7비율']
     course_filtered['공회전율(%)'] = (course_filtered['공회전시간(초)'] / course_filtered['주행시간(초)']) * 100
 
-    course_filtered = course_filtered.sort_values(by='주행거리', ascending=False)
-    st.dataframe(course_filtered[['코스', '주행거리', '연비', '공회전율(%)', '급감속', '평균속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']])
+    course_filtered_display = format_course_table(course_filtered)
+
+    course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=False)
+    course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '공회전율(%)', '급감속', '평균속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']]
+
+    #출력
+    st.write("""
+    <style>
+    td span {
+        font-size: 15px;
+    }
+    table td {
+        white-space: nowrap !important;
+        text-align: center;
+        vertical-align: middle;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.write(course_filtered_final.to_html(escape=False, index=False), unsafe_allow_html=True)
 
     ### 3. 개인 vs 코스평균 비교 (연비) ###
-    st.header("나의 연비 vs 코스 평균 연비")
+    st.subheader("나의 연비 vs 코스 평균 연비")
     #코스별 평균연비
     course_mean_grade = df_course_driver.groupby('코스')['연비'].mean().reset_index().rename(columns={'연비': '평균연비'})
 
@@ -128,7 +165,7 @@ if 조회버튼 and driver_id:
     st.plotly_chart(fig)
 
     ### 4. 일별 주행기록 ###
-    st.header("일별 주행기록")
+    st.subheader("일별 주행기록")
     daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스']).agg({
         '주행거리(km)': 'sum',
         '연료소모량(m3': 'sum',
