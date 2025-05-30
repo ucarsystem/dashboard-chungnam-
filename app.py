@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 import os
 import plotly.express as px
+import base64
 import requests
 import numpy as np
 from PIL import Image, ImageOps
@@ -29,11 +30,19 @@ df_course_driver = pd.read_excel(excel_path, sheet_name='코스+운전자별')
 month_input = 6
 
 #출력시작
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
+# st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
+
+# Base64 인코딩 함수
+def get_base64_image(img_path):
+    with open(img_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+    
 logo_path = "./logo.png"
+logo_base64 = get_base64_image(logo_path)
+
 st.markdown(f"""
     <div style='display: flex; align-items: center; gap: 10px;'>
-        <img src="data:image/png;base64,{st.image(logo_path, output_format="png").data.decode()}" style='width:40px; height:40px;'>
+        <img src="data:image/png;base64,{logo_base64}" style='width:40px; height:40px;'>
         <h1 style='margin:0; font-size:32px;'>충남고속_나만의 연비 대시보드</h1>
     </div>
     <hr style='border:1px solid #ccc; margin-top:10px;'>
