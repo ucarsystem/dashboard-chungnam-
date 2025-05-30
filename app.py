@@ -31,6 +31,22 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
+#방문자 조회 코드
+GA4_ID = "G-DFK7QQH1EH"  # 여기에 본인의 측정 ID를 입력
+st.markdown(
+    f"""
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{GA4_ID}');
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
 #출력시작
 st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
 
