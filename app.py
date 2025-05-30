@@ -54,7 +54,6 @@ st.markdown(f"""
 
 # with col2:
 #     st.markdown("<h1 style='margin-bottom:0;'>충남고속_나만의 연비 대시보드</h1>", unsafe_allow_html=True)
-st.markdown("---")  # 구분선
 
 driver_id = st.text_input("운전자번호를 입력하세요", "")
 조회버튼 = st.button("조회하기")
@@ -83,7 +82,7 @@ if 조회버튼 and driver_id:
 
         st.markdown(f"""
         <div style='display: flex; align-items: center; gap:12px'>
-            <img src="https://img.icons8.com/color/48/bus.png';" style="width:30px; height:30px;">
+            <img src='https://img.icons8.com/color/48/bus.png'; style='width:30px; height:30px;'>
             <div>
                 <div><strong>대표 차량:</strong> {rep_car}</div>
                 <div><strong>노선:</strong> {rep_route}</div>
@@ -203,7 +202,7 @@ if 조회버튼 and driver_id:
     )
 
     # 출력
-    # st.plotly_chart(fig)
+    st.plotly_chart(fig)
 
     # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
     # st.plotly_chart(fig)
