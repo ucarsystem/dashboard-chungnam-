@@ -214,7 +214,7 @@ if 조회버튼 and user_input:
         fig.update_xaxes(
             tickmode='linear',  # 모든 코스 번호 다 보여주기
             dtick=1,            # 1단위 간격으로
-            title_text='코스'
+            title_text='코스',
             gridcolor='#F0F0F0',
             zeroline=False
         )
