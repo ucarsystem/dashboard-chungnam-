@@ -87,11 +87,13 @@ if 조회버튼 and user_input:
         ### 1. 전체 지표 ###
         st.subheader("📌전체 주행 지표")
         tang_filtered = df_tang[df_tang['운전자번호'] == driver_id].fillna('')
+        driver_info = df_driver[df_driver['운전자ID'] == driver_id].fillna('')
 
-        if not tang_filtered.empty:
-            rep_car = tang_filtered.groupby('차량번호4')['주행거리(km)'].sum().idxmax()
-            rep_course = int(tang_filtered.groupby('코스')['주행거리(km)'].sum().idxmax())
-            rep_route = tang_filtered[tang_filtered['차량번호4'] == rep_car]['노선번호'].mode()[0]
+        if not driver_info.empty:
+            driver_info_df = driver_info.iloc[0]
+            rep_car = driver_info_df['주차량량']
+            rep_course = driver_info_df['주코스']
+            rep_route = driver_info_df['주노선']
 
             
             #등급에 따른 폰트색깔 함수
@@ -117,7 +119,6 @@ if 조회버튼 and user_input:
             #간격
             st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
 
-            driver_info = df_driver[df_driver['운전자ID'] == driver_id].fillna('')
             driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
             driver_info['급가속(회/100km)'] = round(((driver_info['급가속횟수'] * 100) / driver_info['주행거리(km)']),2)
             driver_info['급감속(회/100km)'] = round(((driver_info['급감속횟수'] * 100) / driver_info['주행거리(km)']),2)
