@@ -54,10 +54,21 @@ st.markdown("""
 @media screen and (max-width: 600px) {
   body, div, span, p, table, td, th {
     font-size: 14px !important;
+    background-color: #FFFFFF !important;
   }
 
   .js-plotly-plot .plotly .main-svg {
     font-size: 14px !important;
+    color: #333333 !important;
+  }
+
+  .legend text, .xtick text, .ytick text {
+    fill: #333333 !important; /* 차트 글씨색을 더 진하게 */
+  }
+
+  .main-svg .xtick text, .main-svg .ytick text, .main-svg .legend text {
+    fill: #333333 !important;
+    font-size: 12px !important;
   }
 }
 </style>
