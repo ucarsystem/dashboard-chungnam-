@@ -244,7 +244,7 @@ if 조회버튼 and user_input:
         # 레이아웃 스타일
         fig.update_layout(
             title_x=0.5,
-            font=dict(size=14, family='Arial, sans-serif', color='#333333'),
+            font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
             plot_bgcolor='white',
             paper_bgcolor='white',
