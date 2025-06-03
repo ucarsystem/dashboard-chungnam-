@@ -144,7 +144,7 @@ if 조회버튼 and user_input:
             st.info("사원님의 주행 데이터가 없습니다.")
 
         ### 2. 주행 코스별 운행기록 ###
-        st.subheader("코스별 나의 운행 데이터")
+        st.subheader("🚌 코스별 나의 운행 데이터")
 
         #반환함수
         def format_course_table(df):
@@ -190,7 +190,7 @@ if 조회버튼 and user_input:
             st.write(course_filtered_final.to_html(escape=False, index=False), unsafe_allow_html=True)
 
         ### 3. 개인 vs 코스평균 비교 (연비) ###
-        st.subheader("나의 연비 vs 코스 평균 연비")
+        st.subheader("📈 나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
         course_mean_grade = df_course_driver.groupby('코스')['연비'].mean().reset_index().rename(columns={'연비': '평균연비'})
         course_mean_grade = course_mean_grade.fillna('')
@@ -245,7 +245,7 @@ if 조회버튼 and user_input:
         # st.plotly_chart(fig)
 
         ### 4. 일별 주행기록 ###
-        st.subheader("일별 주행기록")
+        st.subheader("📊 일별 주행기록")
 
         daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비설정']).agg({
             '주행거리(km)': 'sum',
