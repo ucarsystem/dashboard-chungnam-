@@ -49,6 +49,31 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown("""
+<style>
+@media screen and (max-width: 600px) {
+  body, div, span, p, table, td, th {
+    font-size: 14px !important;
+    color: #000000 !important;
+    background-color: #FFFFFF !important; /* 배경색 흰색 적용 */
+  }
+
+  .js-plotly-plot .plotly .main-svg {
+    font-size: 14px !important;
+    color: #000000 !important;
+  }
+
+  .legend text {
+    fill: #000000 !important;
+  }
+
+  .xtick text, .ytick text {
+    fill: #000000 !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 #출력시작
 
 # Base64 인코딩 함수
@@ -281,7 +306,7 @@ if 조회버튼 and user_input:
             daily_grouped['차량번호'] = daily_grouped['차량번호4']
             daily_grouped['코스'] = daily_grouped['코스'].astype(int)
             daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
-            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:skyblue;'>{x:.2f}</span></b>")
+            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:blue;'>{x:.2f}</span></b>")
             daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
             daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
 
