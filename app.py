@@ -53,18 +53,12 @@ st.markdown("""
 <style>
 @media screen and (max-width: 600px) {
   body, div, span, p, table, td, th {
-    font-size: 14px;
-    color: initial !important;
+    font-size: 14px !important;
     background-color: #FFFFFF !important;
   }
 
   .js-plotly-plot .plotly .main-svg {
     font-size: 14px !important;
-    color: initial !important;
-  }
-
-  .legend text, .xtick text, .ytick text {
-    fill: initial !important;
   }
 }
 </style>
