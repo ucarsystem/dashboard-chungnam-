@@ -53,27 +53,22 @@ st.markdown("""
 <style>
 @media screen and (max-width: 600px) {
   body, div, span, p, table, td, th {
-    font-size: 14px !important;
-    color: #000000 !important;
-    background-color: #FFFFFF !important; /* 배경색 흰색 적용 */
+    font-size: 14px;
+    color: initial !important;
+    background-color: #FFFFFF !important;
   }
 
   .js-plotly-plot .plotly .main-svg {
     font-size: 14px !important;
-    color: #000000 !important;
+    color: initial !important;
   }
 
-  .legend text {
-    fill: #000000 !important;
-  }
-
-  .xtick text, .ytick text {
-    fill: #000000 !important;
+  .legend text, .xtick text, .ytick text {
+    fill: initial !important;
   }
 }
 </style>
 """, unsafe_allow_html=True)
-
 #출력시작
 
 # Base64 인코딩 함수
