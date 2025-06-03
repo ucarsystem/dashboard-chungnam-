@@ -89,21 +89,20 @@ if 조회버튼 and user_input:
         tang_filtered = df_tang[df_tang['운전자번호'] == driver_id].fillna('')
         driver_info = df_driver[df_driver['운전자ID'] == driver_id].fillna('')
 
+        #등급에 따른 폰트색깔 함수
+        def get_grade_color(this_grade):
+            if this_grade in ["S", "A"]:
+                return "green"
+            elif this_grade in ["B", "C"]:
+                return "orange"
+            else:
+                return "red"
+
         if not driver_info.empty:
             driver_info_df = driver_info.iloc[0]
             rep_car = driver_info_df['주차량']
             rep_course = driver_info_df['주코스']
             rep_route = driver_info_df['주노선']
-
-            
-            #등급에 따른 폰트색깔 함수
-            def get_grade_color(this_grade):
-                if this_grade in ["S", "A"]:
-                    return "green"
-                elif this_grade in ["B", "C"]:
-                    return "orange"
-                else:
-                    return "red"
 
             st.markdown(f"""
             <div style='display: flex; align-items: center; gap:12px'>
@@ -208,7 +207,7 @@ if 조회버튼 and user_input:
             x='코스',
             y=['연비', '평균연비'],
             barmode='group',
-            labels={'value':'냐의 연비', 'variable':'코스별평균연비'},
+            labels={'value':'연비 (km/ℓ)'},
             color_discrete_sequence=colors
         )
 
@@ -280,8 +279,10 @@ if 조회버튼 and user_input:
             daily_grouped['DATE'] = pd.to_datetime(daily_grouped['DATE']).dt.strftime('%-m/%-d')
             daily_grouped['주행일'] = daily_grouped['DATE'] 
             daily_grouped['차량번호'] = daily_grouped['차량번호4']
+            daily_grouped['코스'] = daily_grouped['코스'].astype(int)
             daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
-            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"{x:.2f}")
+            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:skyblue;'>{x:.2f}</span></b>")
+            daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
             daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
 
             # 6출력
