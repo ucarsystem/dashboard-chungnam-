@@ -34,20 +34,20 @@ month_input = 6
 st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
 
 #방문자 조회 코드
-GA4_ID = "G-DFK7QQH1EH"  # 여기에 본인의 측정 ID를 입력
-st.markdown(
-    f"""
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){{dataLayer.push(arguments);}}
-      gtag('js', new Date());
-      gtag('config', '{GA4_ID}');
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+# GA4_ID = "G-DFK7QQH1EH"  # 여기에 본인의 측정 ID를 입력
+# st.markdown(
+#     f"""
+#     <!-- Global site tag (gtag.js) - Google Analytics -->
+#     <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
+#     <script>
+#       window.dataLayer = window.dataLayer || [];
+#       function gtag(){{dataLayer.push(arguments);}}
+#       gtag('js', new Date());
+#       gtag('config', '{GA4_ID}');
+#     </script>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 st.markdown("""
 <style>
@@ -149,7 +149,7 @@ if 조회버튼 and user_input:
                 driver_info_df = driver_info.iloc[0]
                 grade_color = get_grade_color(driver_info_df['등급'])
 
-                col1, col2, col3, col4, col5, col6 = st.columns(6)
+                col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
                 with col1:
                     st.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 60px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
                 with col2:
@@ -159,9 +159,11 @@ if 조회버튼 and user_input:
                 with col4:
                     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['공회전율(%)']:.1f}%</div><div>공회전율</div>", unsafe_allow_html=True)
                 with col5:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['급감속(회/100km)']:.2f}</div><div>안전지수(급감속)</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['급가속(회/100km)']:.2f}</div><div>안전지수(급가가속)</div>", unsafe_allow_html=True)
                 with col6:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['평균속도']:.1f} km/h</div><div>평균속도</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['급감속(회/100km)']:.2f}</div><div>안전지수(급감속)</div>", unsafe_allow_html=True)
+                with col7:
+                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>{driver_info_df['최고속도']} km/h</div><div>최고속도</div>", unsafe_allow_html=True)
 
         else:
             st.info("사원님의 주행 데이터가 없습니다.")
@@ -174,6 +176,7 @@ if 조회버튼 and user_input:
             df = df.copy()
             df['주행거리'] = df['주행거리'].apply(lambda x: f"{int(x):,} km")
             df['연비'] = df['연비'].apply(lambda x: f"<span style='color:blue;'>{x:.2f}</span>")
+            df['급가속'] = df['급가속'].apply(lambda x: f"{x:.2f}")
             df['급감속'] = df['급감속'].apply(lambda x: f"{x:.2f}")
             df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.2f}")
             df['공회전율(%)'] = df['공회전율(%)'].apply(lambda x: f"{x:.1f}%")
@@ -194,7 +197,7 @@ if 조회버튼 and user_input:
             course_filtered_display = format_course_table(course_filtered)
 
             course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=False)
-            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '공회전율(%)', '급감속', '평균속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']]
+            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '공회전율(%)', '급가속', '급감속', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']]
 
             #출력
             st.write("""
@@ -215,11 +218,13 @@ if 조회버튼 and user_input:
         ### 3. 개인 vs 코스평균 비교 (연비) ###
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
-        course_mean_grade = df_course_driver.groupby('코스')['연비'].mean().reset_index().rename(columns={'연비': '평균연비'})
+        course_mean_grade = df_course_driver.groupby(['노선', '코스'])['연비'].mean().reset_index().rename(columns={'연비': '평균연비'})
         course_mean_grade = course_mean_grade.fillna('')
 
         # 개인 데이터와 병합 (코스 기준)
-        course_filtered = course_filtered.merge(course_mean_grade, on='코스', how='left')
+
+        course_filtered = course_filtered[course_filtered['운전자번호'] == driver_id].fillna('')
+        course_filtered = course_filtered.merge(course_mean_grade, on=['노선', '코스'], how='left')
 
         # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
         colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
@@ -230,7 +235,7 @@ if 조회버튼 and user_input:
             x='코스',
             y=['연비', '평균연비'],
             barmode='group',
-            labels={'value':'연비 (km/ℓ)'},
+            labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
             color_discrete_sequence=colors
         )
 
@@ -270,7 +275,7 @@ if 조회버튼 and user_input:
         ### 4. 일별 주행기록 ###
         st.subheader("📊 일별 주행기록")
 
-        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비설정']).agg({
+        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비설정', '운전자번호']).agg({
             '주행거리(km)': 'sum',
             '연료소모량(m3': 'sum',
             '구간3비율(%) 40-60 시간(초)': 'sum',
@@ -278,6 +283,7 @@ if 조회버튼 and user_input:
             '공회전,웜업제외 시간': 'sum'
         }).reset_index()
 
+        daily_grouped = daily_grouped[daily_grouped['운전자번호'] == driver_id].fillna('')
 
         if not daily_grouped.empty:
 
@@ -308,7 +314,7 @@ if 조회버튼 and user_input:
             daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
             daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
 
-            # 6출력
+            # 출력
             st.markdown(
                 daily_grouped[['주행일', '차량번호', '코스', '주행거리(km)', '연비', '등급', '경제속도구간(%)']].to_html(index=False, escape=False),
                 unsafe_allow_html=True
