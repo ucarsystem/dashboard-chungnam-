@@ -139,7 +139,7 @@ if 조회버튼 and user_input:
             """, unsafe_allow_html=True)
 
             #간격
-            st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
+            st.markdown("<div style='height:40px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
 
             driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
             driver_info['급가속(회/100km)'] = round(((driver_info['급가속횟수'] * 100) / driver_info['주행거리(km)']),2)
@@ -258,6 +258,7 @@ if 조회버튼 and user_input:
 
         # 레이아웃 스타일
         fig.update_layout(
+            title = '결과',
             title_x=0.5,
             font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
