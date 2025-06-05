@@ -258,7 +258,7 @@ if 조회버튼 and user_input:
 
         # 레이아웃 스타일
         fig.update_layout(
-            title = '결과',
+            title = '',
             title_x=0.5,
             font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
@@ -282,7 +282,7 @@ if 조회버튼 and user_input:
             '구간3비율(%) 40-60 시간(초)': 'sum',
             '구간4비율(%) 60-80 시간(초)': 'sum',
             '공회전,웜업제외 시간': 'sum',
-            '최고속도(km)': 'max',
+            '최고속도': 'max',
             '급가속횟수': 'sum',
             '급감속횟수': 'sum'
         }).reset_index()
@@ -294,7 +294,6 @@ if 조회버튼 and user_input:
             daily_grouped['연비'] = daily_grouped['주행거리(km)'] / daily_grouped['연료소모량(m3']
             daily_grouped['안전지수(급가속)'] = daily_grouped['급가속횟수']*100 / daily_grouped['주행거리(km)']
             daily_grouped['안전지수(급감속)'] = daily_grouped['급감속횟수']*100 / daily_grouped['주행거리(km)']
-            daily_grouped['최고속도'] = daily_grouped['최고속도(km)']
 
             daily_grouped = daily_grouped.fillna('')
 
