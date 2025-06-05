@@ -146,6 +146,7 @@ if 조회버튼 and user_input:
             driver_info['급감속(회/100km)'] = round(((driver_info['급감속횟수'] * 100) / driver_info['주행거리(km)']),2)
 
             if not driver_info.empty:
+                driver_info_df =  driver_info.iloc[0]
                 grade_color = get_grade_color(driver_info_df['등급'])
 
                 col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
