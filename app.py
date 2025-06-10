@@ -124,7 +124,7 @@ if 조회버튼 and user_input:
         if not driver_info.empty:
             driver_info_df = driver_info.iloc[0]
             rep_car = driver_info_df['주차량']
-            rep_course = driver_info_df['주코스']
+            rep_course = int(driver_info_df['주코스'])
             rep_route = driver_info_df['주노선']
 
             st.markdown(f"""
@@ -144,6 +144,15 @@ if 조회버튼 and user_input:
             driver_info['공회전율(%)'] = round(((driver_info['공회전시간'] / driver_info['주행시간']) * 100),2)
             driver_info['급가속(회/100km)'] = round(((driver_info['급가속횟수'] * 100) / driver_info['주행거리(km)']),2)
             driver_info['급감속(회/100km)'] = round(((driver_info['급감속횟수'] * 100) / driver_info['주행거리(km)']),2)
+
+            box_style = """
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            """
 
             if not driver_info.empty:
                 driver_info_df =  driver_info.iloc[0]
@@ -294,6 +303,7 @@ if 조회버튼 and user_input:
             daily_grouped['연비'] = daily_grouped['주행거리(km)'] / daily_grouped['연료소모량(m3']
             daily_grouped['안전지수(급가속)'] = daily_grouped['급가속횟수']*100 / daily_grouped['주행거리(km)']
             daily_grouped['안전지수(급감속)'] = daily_grouped['급감속횟수']*100 / daily_grouped['주행거리(km)']
+            daily_grouped['최고속도(km/h)'] = daily_grouped['최고속도'] 
 
             daily_grouped = daily_grouped.fillna('')
 
@@ -317,14 +327,14 @@ if 조회버튼 and user_input:
             daily_grouped['코스'] = daily_grouped['코스'].astype(int)
             daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
             daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:blue;'>{x:.2f}</span></b>")
-            daily_grouped['안전지수(급가속)'] = daily_grouped['안전지수(급가속)'].apply(lambda x: f"<b><span style='color:blue;'>{x:.2f}</span></b>")
-            daily_grouped['안전지수(급감속)'] = daily_grouped['안전지수(급감속)'].apply(lambda x: f"<b><span style='color:blue;'>{x:.2f}</span></b>")
+            daily_grouped['안전지수(급가속)'] = daily_grouped['안전지수(급가속)'].apply(lambda x: f"<b>{x:.2f}</b>")
+            daily_grouped['안전지수(급감속)'] = daily_grouped['안전지수(급감속)'].apply(lambda x: f"<b>{x:.2f}</b>")
             daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
             daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
 
             # 출력
             st.markdown(
-                daily_grouped[['주행일', '차량번호', '코스', '주행거리(km)', '연비', '등급', '안전지수(급가속)', '안전지수(급감속)', '경제속도구간(%)', '최고속도']].to_html(index=False, escape=False),
+                daily_grouped[['주행일', '차량번호', '코스', '주행거리(km)', '연비', '등급', '안전지수(급가속)', '안전지수(급감속)', '경제속도구간(%)', '최고속도(km/h)']].to_html(index=False, escape=False),
                 unsafe_allow_html=True
             )
 
