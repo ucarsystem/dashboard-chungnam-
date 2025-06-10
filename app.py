@@ -205,7 +205,7 @@ if 조회버튼 and user_input:
 
             course_filtered_display = format_course_table(course_filtered)
 
-            course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=False)
+            course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=True)
             course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '공회전율(%)', '급가속', '급감속', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']]
 
             #출력
