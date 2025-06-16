@@ -242,7 +242,7 @@ if 조회버튼 and user_input:
         fig = px.bar(
             course_filtered,
             x='코스',
-            y=['연비', '평균연비'],
+            y=['내 연비', '평균연비'],
             barmode='group',
             labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
             color_discrete_sequence=colors
