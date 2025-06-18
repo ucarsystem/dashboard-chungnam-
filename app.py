@@ -166,7 +166,7 @@ if 조회버튼 and user_input:
                     flex-wrap: wrap;
                     justify-content: space-between;
                     gap: 10px;
-
+                    background-color: #fff;
                     border: 1px solid #ccc;
                     border-radius: 8px;
                     padding: 20px;
