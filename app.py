@@ -184,11 +184,11 @@ if 조회버튼 and user_input:
                     is_higher = diff > 0 if not reverse else diff < 0
                     label = "⚠️ 평균보다 높습니다." if is_higher else "✅ 평균보다 낮습니다."
                     color = "#f87171" if is_higher else "#10b981"  # red or green
-                    bar_value = min(abs(diff) * 10, 100)
+                    bar_value = min(abs(diff) * 100, 100)
                     return f"""
                     <div style='flex: 1; min-width: 120px; padding: 10px;'>
                         <div style='font-weight: bold;'>{title}</div>
-                        <div>{value:.1f}{unit}</div>
+                        <div>{value}{unit}</div>
                         <div style='margin-top: 4px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px;'></div>
                     </div>
@@ -204,23 +204,22 @@ if 조회버튼 and user_input:
                 my_break = round(driver_info_df['급감속(회/100km)'],2)
                 my_speed = driver_info_df['최고속도(km)']
 
-                st.markdown(f"""
+                idle_html = render_indicator("공회전율(%)", my_idle, idle_avg, "%")
+                excel_html = render_indicator("안전지수(급가속)", my_excel, excel_avg,"회")
+                break_html = render_indicator("안전지수(급감속)", my_break, break_avg,"회")
+                speed_html = render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")
+
+                #출력
+                indicator_block = f"""
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
-                <div style='text-align:center;'>
-                    {render_indicator("공회전율(%)", my_idle, idle_avg, "%")}
+                    {idle_html}
+                    {excel_html}
+                    {break_html}
+                    {speed_html}
                 </div>
-                <div style='text-align:center;'>
-                    {render_indicator("안전지수(급가속)", my_excel, excel_avg,"회")}
-                </div>
-                <div style='text-align:center;'>
-                    {render_indicator("안전지수(급감속)", my_break, break_avg,"회")}
-                </div>
-                <div style='text-align:center;'>
-                    {render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")}
-                </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
+                """
+                st.markdown(indicator_block, unsafe_allow_html=True)
+
 
                 #     <div style='flex: 1; min-width: 120px; text-align:center;'>
                 #         <div style='font-weight: bold;'>{int(month_input)}월 등급</div>
