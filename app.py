@@ -232,7 +232,6 @@ if 조회버튼 and user_input:
 
         # 개인 데이터와 병합 (코스 기준)
 
-        course_filtered = course_filtered[course_filtered['운전자번호'] == driver_id].fillna('')
         course_filtered = course_filtered.merge(course_mean_grade, on=['노선', '코스'], how='left')
 
         print(course_filtered.columns)
