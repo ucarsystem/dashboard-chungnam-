@@ -31,7 +31,7 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
+st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
 
 
 #방문자 조회 코드
