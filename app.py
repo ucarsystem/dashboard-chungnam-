@@ -279,7 +279,7 @@ if 조회버튼 and user_input:
         )
 
         # 출력
-        st.plotly_chart(fig, use_container_width=True)
+        # st.plotly_chart(fig, use_container_width=True)
 
         # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
         # st.plotly_chart(fig)
