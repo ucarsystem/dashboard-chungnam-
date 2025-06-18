@@ -194,12 +194,12 @@ if 조회버튼 and user_input:
                     </div>
                     """
                 
-                idle_avg = round(driver_info_df['노선평균공회전']*100,1)
+                idle_avg = round(driver_info_df['노선평균공회전']*100)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
                 break_avg = round(driver_info_df['노선평균안전지수(급감속)'],2)
                 maxspeed_avg = round(driver_info_df['노선평균최고속도'],1)
 
-                my_idle = round(driver_info_df['공회전율(%)']*100,1)
+                my_idle = driver_info_df['공회전율(%)']
                 my_excel = round(driver_info_df['급가속(회/100km)'],2)
                 my_break = round(driver_info_df['급감속(회/100km)'],2)
                 my_speed = driver_info_df['최고속도(km)']
