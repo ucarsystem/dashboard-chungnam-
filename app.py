@@ -371,7 +371,7 @@ if 조회버튼 and user_input:
             daily_grouped['차량번호'] = daily_grouped['차량번호4']
             daily_grouped['코스'] = daily_grouped['코스'].astype(int)
             daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
-            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:green;>{x:.2f}</span></b>")
+            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:#4FC3F7;'>{x:.2f}</span></b>")
             daily_grouped['안전지수(급가속)'] = daily_grouped['안전지수(급가속)'].apply(lambda x: f"<b>{x:.2f}</b>")
             daily_grouped['안전지수(급감속)'] = daily_grouped['안전지수(급감속)'].apply(lambda x: f"<b>{x:.2f}</b>")
             daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
