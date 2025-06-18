@@ -166,7 +166,7 @@ if 조회버튼 and user_input:
                     flex-wrap: wrap;
                     justify-content: space-between;
                     gap: 10px;
-                    background-color: #fff;
+
                     border: 1px solid #ccc;
                     border-radius: 8px;
                     padding: 20px;
@@ -174,7 +174,7 @@ if 조회버튼 and user_input:
                     font-size: 16px;
                 '>
                     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>📅 {int(month_input)}월 등급</div>
+                        <div style='font-weight: bold;'>{int(month_input)}월 등급</div>
                         <div style='font-size: 48px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>
                     </div>
                     <div style='flex: 1; min-width: 120px; text-align:center;'>
