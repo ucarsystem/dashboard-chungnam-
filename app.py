@@ -227,7 +227,7 @@ if 조회버튼 and user_input:
             st.write(course_filtered_final.to_html(escape=False, index=False), unsafe_allow_html=True)
 
         #간격
-        st.markdown("<div style='height:40px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height:30px;'></div>", unsafe_allow_html=True)
 
         ### 3. 개인 vs 코스평균 비교 (연비) ###
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
