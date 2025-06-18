@@ -197,7 +197,7 @@ if 조회버튼 and user_input:
                 idle_avg = round(driver_info_df['노선평균공회전']*100,1)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
                 break_avg = round(driver_info_df['노선평균안전지수(급감속)'],2)
-                maxspeed_avg = driver_info_df['노선평균최고속도']
+                maxspeed_avg = round(driver_info_df['노선평균최고속도'],1)
 
                 my_idle = round(driver_info_df['공회전율(%)']*100,1)
                 my_excel = round(driver_info_df['급가속(회/100km)'],2)
@@ -207,8 +207,8 @@ if 조회버튼 and user_input:
                 st.markdown(f"""
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
                     {render_indicator("공회전율(%)", my_idle, idle_avg, "%")}
-                    {render_indicator("안전지수(급가속)", my_excel, excel_avg), "회"}
-                    {render_indicator("안전지수(급감속)", my_break, break_avg), "회"}
+                    {render_indicator("안전지수(급가속)", my_excel, excel_avg,"회")}
+                    {render_indicator("안전지수(급감속)", my_break, break_avg,"회")}
                     {render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")}
                 </div>
                 """, unsafe_allow_html=True)
