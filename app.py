@@ -185,13 +185,15 @@ if 조회버튼 and user_input:
                     is_higher = diff > 0 if not reverse else diff < 0
                     label = "⚠️ 평균보다 높습니다." if is_higher else "✅ 평균보다 낮습니다."
                     color = "#f87171" if is_higher else "#10b981"  # red or green
-                    bar_value = min(abs(diff) * 100, 100)
+                    bar_value = min(abs(diff) * 100, 100) if avg !=0 else 0
+
                     return f"""
-                    <div style='flex: 1; min-width: 120px; padding: 10px;'>
+
+                    <div style='flex: 1; min-width: 200px; padding: 15px; margin: 5px border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); background-color: #fff; text-align: center;'>
                         <div style='font-size: 20px;font-weight: bold;'>{title}</div>
                         <div style='font-size: 40px;'>{value}{unit}</div>
-                        <div style='margin-top: 4px; font-size: 14px; font-weight: bold;'>{label}</div>
-                        <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px;'></div>
+                        <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
+                        <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px; margin-top: 4px;'></div>
                     </div>
                     """
                 
