@@ -14,6 +14,7 @@ import matplotlib.ticker as ticker
 from openpyxl import load_workbook
 import calendar
 import datetime
+import plotly.graph_objects as go
 
 # 한글 폰트 설정
 font_path = "./malgun.ttf"  # 또는 절대 경로로 설정 (예: C:/install/FINAL_APP/dashboard/malgun.ttf)
@@ -31,7 +32,7 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
+st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
 
 
 #방문자 조회 코드
@@ -290,9 +291,9 @@ if 조회버튼 and user_input:
             df = df.copy()
             df['주행거리'] = df['주행거리'].apply(lambda x: f"{int(x):,} km")
             df['연비'] = df['연비'].apply(lambda x: f"<span style='color:#4FC3F7; font-weight:bold;'>{x:.2f}</span>")
-            df['급가속'] = df['급가속'].apply(lambda x: f"{x:.2f}")
-            df['급감속'] = df['급감속'].apply(lambda x: f"{x:.2f}")
-            df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.2f}")
+            df['급가속(회)'] = df['급가속'].apply(lambda x: f"{x:.2f}")
+            df['급감속(회)'] = df['급감속'].apply(lambda x: f"{x:.2f}")
+            df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.1f}")
             df['공회전율(%)'] = df['공회전율(%)'].apply(lambda x: f"{x:.1f}%")
             df['저속구간(%)'] = df['저속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
             df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span style='color:green; font-weight:bold;'>{x*100:.1f}%</span>")
@@ -311,7 +312,7 @@ if 조회버튼 and user_input:
             course_filtered_display = format_course_table(course_filtered)
 
             course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=True)
-            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '공회전율(%)', '급가속', '급감속', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)', '등수']]
+            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '등수', '공회전율(%)', '급가속', '급감속', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)']]
 
             #출력
             st.write("""
@@ -339,49 +340,91 @@ if 조회버튼 and user_input:
         course_filtered_graph['평균연비'] = course_filtered_graph['코스별 평균 연비']
         course_filtered_graph['내 연비'] = course_filtered_graph['연비']
 
-        # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
-        colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
+        # course_filtered_graph['코스(노선)'] = course_filtered_graph['코스']
 
-        # 막대그래프
-        fig = px.bar(
-            course_filtered_graph,
-            x='코스',
-            y=['내 연비', '평균연비'],
-            barmode='group',
-            labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
-            color_discrete_sequence=colors
-        )
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=course_filtered_graph['코스'],
+            y=course_filtered_graph['내 연비'],
+            name = '내 연비',
+            marker_color = '#4C78A8'
+        ))
+        fig.add_trace(go.Scatter(
+            x=course_filtered_graph['코스'],
+            y=course_filtered_graph['코스별 평균 연비'],
+            name='코스별 평균연비',
+            mode='lines+markers',
+            line=dict(color='red', width=2)
+        ))
 
-        # X축 눈금 표시
-        fig.update_xaxes(
-            tickmode='linear',  # 모든 코스 번호 다 보여주기
-            dtick=1,            # 1단위 간격으로
-            title_text='코스',
-            gridcolor='#F0F0F0',
-            zeroline=False
-        )
-
-        # Y축 레이블
-        fig.update_yaxes(
-            title_text='연비(km/ℓ)',
-            showgrid=True,
-            gridcolor='#F0F0F0',
-            zeroline=False
-        )
-
-        # 레이아웃 스타일
         fig.update_layout(
-            title = '',
-            title_x=0.5,
+            title='',
+            barmode='group',
+            xaxis=dict(
+                title='코스',
+                tickmode='linear',
+                dtick=1,
+                gridcolor='#F0F0F0'
+            ),
+            yaxis=dict(
+                title='연비(km/ℓ)',
+                gridcolor='#F0F0F0',
+                rangemode='tozero',
+                range=[1, max(course_filtered[['내 연비','코스별 평균 연비']].max()) + 1]
+            ),
             font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
             plot_bgcolor='white',
             paper_bgcolor='white',
-            margin=dict(l=40, r=40, t=60, b=40),
+            margin=dict(l=40, r=40, t=60, b=40)
         )
 
-        # 출력
         st.plotly_chart(fig, use_container_width=True)
+
+
+        # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
+        # colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
+
+        # # 막대그래프
+        # fig = px.bar(
+        #     course_filtered_graph,
+        #     x='코스',
+        #     y=['내 연비', '평균연비'],
+        #     barmode='group',
+        #     labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
+        #     color_discrete_sequence=colors
+        # )
+
+        # # X축 눈금 표시
+        # fig.update_xaxes(
+        #     tickmode='linear',  # 모든 코스 번호 다 보여주기
+        #     dtick=1,            # 1단위 간격으로
+        #     title_text='코스',
+        #     gridcolor='#F0F0F0',
+        #     zeroline=False
+        # )
+
+        # # Y축 레이블
+        # fig.update_yaxes(
+        #     title_text='연비(km/ℓ)',
+        #     showgrid=True,
+        #     gridcolor='#F0F0F0',
+        #     zeroline=False
+        # )
+
+        # # 레이아웃 스타일
+        # fig.update_layout(
+        #     title = '',
+        #     title_x=0.5,
+        #     font=dict(size=14, family='Arial, sans-serif'),
+        #     legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+        #     plot_bgcolor='white',
+        #     paper_bgcolor='white',
+        #     margin=dict(l=40, r=40, t=60, b=40),
+        # )
+
+        # # 출력
+        # st.plotly_chart(fig, use_container_width=True)
 
         # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
         # st.plotly_chart(fig)
