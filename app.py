@@ -189,7 +189,7 @@ if 조회버튼 and user_input:
                     return f"""
                     <div style='flex: 1; min-width: 120px; padding: 10px;'>
                         <div style='font-size: 20px;font-weight: bold;'>{title}</div>
-                        <div style='font-size: 40px;>{value}{unit}</div>
+                        <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 4px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px;'></div>
                     </div>
