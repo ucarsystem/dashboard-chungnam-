@@ -211,15 +211,18 @@ if 조회버튼 and user_input:
                 speed_html = render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")
 
                 #출력
-                indicator_block = f"""
-                <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
-                    {idle_html}
-                    {excel_html}
-                    {break_html}
-                    {speed_html}
-                </div>
-                """
-                st.markdown(indicator_block, unsafe_allow_html=True)
+                # indicator_block = f"""
+                # <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
+                #     {idle_html}
+                #     {excel_html}
+                #     {break_html}
+                #     {speed_html}
+                # </div>
+                # """
+                st.markdown(idle_html, unsafe_allow_html=True)
+                st.markdown(excel_html, unsafe_allow_html=True)
+                st.markdown(break_html, unsafe_allow_html=True)
+                st.markdown(speed_html, unsafe_allow_html=True)
 
 
                 #     <div style='flex: 1; min-width: 120px; text-align:center;'>
