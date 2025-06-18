@@ -179,6 +179,8 @@ if 조회버튼 and user_input:
                 </div>
                 """, unsafe_allow_html=True)
 
+                st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+
                 # 비교 항목 시각화 함수
                 def render_indicator(title, value, avg, unit="", reverse=False):
                     diff = value - avg
@@ -189,7 +191,7 @@ if 조회버튼 and user_input:
 
                     return f"""
 
-                    <div style='flex: 1; min-width: 200px; padding: 15px; margin: 5px border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); background-color: #fff; text-align: center;'>
+                    <div style='flex: 1; min-width: 200px; padding: 20px; margin: 5px border: 1px solid #ccc; border-radius: 8px; background-color: #fff; text-align: center;'>
                         <div style='font-size: 20px;font-weight: bold;'>{title}</div>
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
