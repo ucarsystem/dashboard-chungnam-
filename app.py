@@ -165,15 +165,15 @@ if 조회버튼 and user_input:
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>6월 등급</div>
-                    <div style='font-size: 40px; color: {{grade_color}}; font-weight: bold;'>{{driver_info_df['등급']}}</div>
+                    <div style='font-size: 40px; color: {grade_color}; font-weight: bold;'>{driver_info_df['등급']}</div>
                 </div>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>주행거리</div>
-                    <div>{{driver_info_df['주행거리(km)']:,.0f}} km</div>
+                    <div>{driver_info_df['주행거리(km)']:,.0f} km</div>
                 </div>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>연비</div>
-                    <div>{{driver_info_df['연비(km/m3)']:.2f}}</div>
+                    <div>{driver_info_df['연비(km/m3)']:.2f}</div>
                 </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -194,12 +194,12 @@ if 조회버튼 and user_input:
                     </div>
                     """
                 
-                idle_avg = round(driver_info_df['노선평균공회전'],2)
+                idle_avg = round(driver_info_df['노선평균공회전']*100,1)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
                 break_avg = round(driver_info_df['노선평균안전지수(급감속)'],2)
                 maxspeed_avg = driver_info_df['노선평균최고속도']
 
-                my_idle = round(driver_info_df['공회전율(%)'],2)
+                my_idle = round(driver_info_df['공회전율(%)']*100,1)
                 my_excel = round(driver_info_df['급가속(회/100km)'],2)
                 my_break = round(driver_info_df['급감속(회/100km)'],2)
                 my_speed = driver_info_df['최고속도(km)']
@@ -207,8 +207,8 @@ if 조회버튼 and user_input:
                 st.markdown(f"""
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
                     {render_indicator("공회전율(%)", my_idle, idle_avg, "%")}
-                    {render_indicator("안전지수(급가속)", my_excel, excel_avg)}
-                    {render_indicator("안전지수(급감속)", my_break, break_avg)}
+                    {render_indicator("안전지수(급가속)", my_excel, excel_avg), "회"}
+                    {render_indicator("안전지수(급감속)", my_break, break_avg), "회"}
                     {render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")}
                 </div>
                 """, unsafe_allow_html=True)
