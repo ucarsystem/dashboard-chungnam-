@@ -108,7 +108,9 @@ if 조회버튼 and user_input:
     else:
 
         ### 1. 전체 지표 ###
-        st.subheader("📌전체 주행 지표")
+        driver_name = df_id_check[df_id_check['ECO관리번호'] == driver_id].iloc[0]['성명']
+
+        st.subheader(f"📌{driver_name}님의 전체 주행 지표")
         tang_filtered = df_tang[df_tang['운전자번호'] == driver_id].fillna('')
         driver_info = df_driver[df_driver['운전자ID'] == driver_id].fillna('')
 
@@ -223,6 +225,9 @@ if 조회버튼 and user_input:
             """, unsafe_allow_html=True)
 
             st.write(course_filtered_final.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+        #간격
+        st.markdown("<div style='height:40px;'></div>", unsafe_allow_html=True)
 
         ### 3. 개인 vs 코스평균 비교 (연비) ###
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
