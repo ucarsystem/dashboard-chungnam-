@@ -54,6 +54,7 @@ st.markdown("""
 @media screen and (max-width: 600px) {
   body, div, span, p, table, td, th {
     font-size: 14px !important;
+    background-color: #FFFFFF !important;
   }
 
   .js-plotly-plot .plotly .main-svg {
@@ -161,48 +162,88 @@ if 조회버튼 and user_input:
                 grade_color = get_grade_color(driver_info_df['등급'])
 
                 st.markdown(f"""
-                <div style = '
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-                    gap: 10px;
-                    background-color: #fff;
-                    border: 1px solid #ccc;
-                    border-radius: 8px;
-                    padding: 20px;
-                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-                    font-size: 16px;
-                '>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>{int(month_input)}월 등급</div>
-                        <div style='font-size: 48px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>주행거리</div>
-                        <div>{driver_info_df['주행거리(km)']:,.0f} km</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>연비</div>
-                        <div>{driver_info_df['연비(km/m3)']:.2f}</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>공회전율</div>
-                        <div>{driver_info_df['공회전율(%)']:.1f}%</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>안전지수(급가속)</div>
-                        <div>{driver_info_df['급가속(회/100km)']:.2f}</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>안전지수(급감속)</div>
-                        <div>{driver_info_df['급감속(회/100km)']:.2f}</div>
-                    </div>
-                    <div style='flex: 1; min-width: 120px; text-align:center;'>
-                        <div style='font-weight: bold;'>최고속도</div>
-                        <div>{driver_info_df['최고속도(km)']} km/h</div>
-                    </div>
+                <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
+                <div style='text-align:center;'>
+                    <div style='font-weight: bold;'>6월 등급</div>
+                    <div style='font-size: 40px; color: {{grade_color}}; font-weight: bold;'>{{driver_info_df['등급']}}</div>
+                </div>
+                <div style='text-align:center;'>
+                    <div style='font-weight: bold;'>주행거리</div>
+                    <div>{{driver_info_df['주행거리(km)']:,.0f}} km</div>
+                </div>
+                <div style='text-align:center;'>
+                    <div style='font-weight: bold;'>연비</div>
+                    <div>{{driver_info_df['연비(km/m3)']:.2f}}</div>
+                </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+                # 비교 항목 시각화 함수
+                def render_indicator(title, value, avg, unit="", reverse=False):
+                    diff = value - avg
+                    is_higher = diff > 0 if not reverse else diff < 0
+                    label = "⚠️ 평균보다 높습니다." if is_higher else "✅ 평균보다 낮습니다."
+                    color = "#f87171" if is_higher else "#10b981"  # red or green
+                    bar_value = min(abs(diff) * 10, 100)
+                    return f"""
+                    <div style='flex: 1; min-width: 120px; padding: 10px;'>
+                        <div style='font-weight: bold;'>{title}</div>
+                        <div>{value:.1f}{unit}</div>
+                        <div style='margin-top: 4px; font-size: 14px; font-weight: bold;'>{label}</div>
+                        <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px;'></div>
+                    </div>
+                    """
+                
+                idle_avg = round(driver_info_df['노선평균공회전'],2)
+                excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
+                break_avg = round(driver_info_df['노선평균안전지수(급감속)'],2)
+                maxspeed_avg = driver_info_df['노선평균최고속도']
+
+                my_idle = round(driver_info_df['공회전율(%)'],2)
+                my_excel = round(driver_info_df['급가속(회/100km)'],2)
+                my_break = round(driver_info_df['급감속(회/100km)'],2)
+                my_speed = driver_info_df['최고속도(km)']
+
+                st.markdown(f"""
+                <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
+                    {render_indicator("공회전율(%)", my_idle, idle_avg, "%")}
+                    {render_indicator("안전지수(급가속)", my_excel, excel_avg)}
+                    {render_indicator("안전지수(급감속)", my_break, break_avg)}
+                    {render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")}
+                </div>
+                """, unsafe_allow_html=True)
+                
+
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>{int(month_input)}월 등급</div>
+                #         <div style='font-size: 48px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>주행거리</div>
+                #         <div>{driver_info_df['주행거리(km)']:,.0f} km</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>연비</div>
+                #         <div>{driver_info_df['연비(km/m3)']:.2f}</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>공회전율</div>
+                #         <div>{driver_info_df['공회전율(%)']:.1f}%</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>안전지수(급가속)</div>
+                #         <div>{driver_info_df['급가속(회/100km)']:.2f}</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>안전지수(급감속)</div>
+                #         <div>{driver_info_df['급감속(회/100km)']:.2f}</div>
+                #     </div>
+                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
+                #         <div style='font-weight: bold;'>최고속도</div>
+                #         <div>{driver_info_df['최고속도(km)']} km/h</div>
+                #     </div>
+                # </div>
+                # """, unsafe_allow_html=True)
 
                 # col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
                 # with col1:
