@@ -236,6 +236,7 @@ if 조회버튼 and user_input:
         course_filtered = course_filtered.merge(course_mean_grade, on=['노선', '코스'], how='left')
 
         print(course_filtered.columns)
+        print(course_filtered[['코스', '연비', '평균연비']])
 
         # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
         colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
