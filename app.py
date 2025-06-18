@@ -160,21 +160,65 @@ if 조회버튼 and user_input:
                 driver_info_df =  driver_info.iloc[0]
                 grade_color = get_grade_color(driver_info_df['등급'])
 
-                col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-                with col1:
-                    st.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 60px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
-                with col2:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>주행거리</div><div>{driver_info_df['주행거리(km)']:,.0f} km</div>", unsafe_allow_html=True)
-                with col3:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>연비</div><div>{driver_info_df['연비(km/m3)']:.2f}</div>", unsafe_allow_html=True)
-                with col4:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>공회전율</div><div>{driver_info_df['공회전율(%)']:.1f}%</div>", unsafe_allow_html=True)
-                with col5:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>안전지수(급가속)</div><div>{driver_info_df['급가속(회/100km)']:.2f}</div>", unsafe_allow_html=True)
-                with col6:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>안전지수(급감속)</div>{driver_info_df['급감속(회/100km)']:.2f}</div>", unsafe_allow_html=True)
-                with col7:
-                    st.markdown(f"<div style='font-size:24px; font-weight:bold;'>최고속도</div><div>{driver_info_df['최고속도(km)']} km/h</div>", unsafe_allow_html=True)
+                st.markdown(f"""
+                <div style = '
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 10px;
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    padding: 20px;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                    font-size: 16px;
+                '>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>📅 {int(month_input)}월 등급</div>
+                        <div style='font-size: 48px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>주행거리</div>
+                        <div>{driver_info_df['주행거리(km)']:,.0f} km</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>연비</div>
+                        <div>{driver_info_df['연비(km/m3)']:.2f}</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>공회전율</div>
+                        <div>{driver_info_df['공회전율(%)']:.1f}%</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>안전지수(급가속)</div>
+                        <div>{driver_info_df['급가속(회/100km)']:.2f}</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>안전지수(급감속)</div>
+                        <div>{driver_info_df['급감속(회/100km)']:.2f}</div>
+                    </div>
+                    <div style='flex: 1; min-width: 120px; text-align:center;'>
+                        <div style='font-weight: bold;'>최고속도</div>
+                        <div>{driver_info_df['최고속도(km)']} km/h</div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+                # with col1:
+                #     st.markdown(f"<div style='font-size: 20px; font-weight: bold;'>{int(month_input)}월 등급</div><div style='font-size: 60px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>", unsafe_allow_html=True)
+                # with col2:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>주행거리</div><div>{driver_info_df['주행거리(km)']:,.0f} km</div>", unsafe_allow_html=True)
+                # with col3:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>연비</div><div>{driver_info_df['연비(km/m3)']:.2f}</div>", unsafe_allow_html=True)
+                # with col4:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>공회전율</div><div>{driver_info_df['공회전율(%)']:.1f}%</div>", unsafe_allow_html=True)
+                # with col5:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>안전지수(급가속)</div><div>{driver_info_df['급가속(회/100km)']:.2f}</div>", unsafe_allow_html=True)
+                # with col6:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>안전지수(급감속)</div>{driver_info_df['급감속(회/100km)']:.2f}</div>", unsafe_allow_html=True)
+                # with col7:
+                #     st.markdown(f"<div style='font-size:24px; font-weight:bold;'>최고속도</div><div>{driver_info_df['최고속도(km)']} km/h</div>", unsafe_allow_html=True)
 
         else:
             st.info("사원님의 주행 데이터가 없습니다.")
