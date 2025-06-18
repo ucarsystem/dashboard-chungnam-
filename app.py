@@ -227,59 +227,52 @@ if 조회버튼 and user_input:
         ### 3. 개인 vs 코스평균 비교 (연비) ###
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
-        course_mean_grade = df_course_driver.groupby(['노선', '코스'])['연비'].mean().reset_index().rename(columns={'연비': '평균연비'})
-        course_mean_grade = course_mean_grade.fillna('')
-
-        # 개인 데이터와 병합 (코스 기준)
-
-        course_filtered = course_filtered.merge(course_mean_grade, on=['노선', '코스'], how='left')
-
-        st.markdown(course_filtered.columns)
-        st.markdown(course_filtered[['코스', '연비', '평균연비']])
+        course_filtered_graph = course_filtered
+        course_filtered_graph['코스별 평균 연비'] = course_filtered_graph['평균연비']
 
         # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
         colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
 
-        # # 막대그래프
-        # fig = px.bar(
-        #     course_filtered,
-        #     x='코스',
-        #     y=['내 연비', '평균연비'],
-        #     barmode='group',
-        #     labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
-        #     color_discrete_sequence=colors
-        # )
+        # 막대그래프
+        fig = px.bar(
+            course_filtered,
+            x='코스',
+            y=['내 연비', '평균연비'],
+            barmode='group',
+            labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
+            color_discrete_sequence=colors
+        )
 
-        # # X축 눈금 표시
-        # fig.update_xaxes(
-        #     tickmode='linear',  # 모든 코스 번호 다 보여주기
-        #     dtick=1,            # 1단위 간격으로
-        #     title_text='코스',
-        #     gridcolor='#F0F0F0',
-        #     zeroline=False
-        # )
+        # X축 눈금 표시
+        fig.update_xaxes(
+            tickmode='linear',  # 모든 코스 번호 다 보여주기
+            dtick=1,            # 1단위 간격으로
+            title_text='코스',
+            gridcolor='#F0F0F0',
+            zeroline=False
+        )
 
-        # # Y축 레이블
-        # fig.update_yaxes(
-        #     title_text='연비(km/ℓ)',
-        #     showgrid=True,
-        #     gridcolor='#F0F0F0',
-        #     zeroline=False
-        # )
+        # Y축 레이블
+        fig.update_yaxes(
+            title_text='연비(km/ℓ)',
+            showgrid=True,
+            gridcolor='#F0F0F0',
+            zeroline=False
+        )
 
-        # # 레이아웃 스타일
-        # fig.update_layout(
-        #     title = '',
-        #     title_x=0.5,
-        #     font=dict(size=14, family='Arial, sans-serif'),
-        #     legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-        #     plot_bgcolor='white',
-        #     paper_bgcolor='white',
-        #     margin=dict(l=40, r=40, t=60, b=40),
-        # )
+        # 레이아웃 스타일
+        fig.update_layout(
+            title = '',
+            title_x=0.5,
+            font=dict(size=14, family='Arial, sans-serif'),
+            legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            margin=dict(l=40, r=40, t=60, b=40),
+        )
 
         # 출력
-        # st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
         # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
         # st.plotly_chart(fig)
