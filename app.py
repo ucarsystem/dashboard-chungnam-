@@ -230,7 +230,7 @@ if 조회버튼 and user_input:
         def format_course_table(df):
             df = df.copy()
             df['주행거리'] = df['주행거리'].apply(lambda x: f"{int(x):,} km")
-            df['연비'] = df['연비'].apply(lambda x: f"<span style='color:blue;'>{x:.2f}</span>")
+            df['연비'] = df['연비'].apply(lambda x: f"<span style='color:#4FC3F7; font-weight:bold;'>{x:.2f}</span>")
             df['급가속'] = df['급가속'].apply(lambda x: f"{x:.2f}")
             df['급감속'] = df['급감속'].apply(lambda x: f"{x:.2f}")
             df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.2f}")
