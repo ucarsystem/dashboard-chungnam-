@@ -31,7 +31,7 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
+st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
 
 #방문자 조회 코드
 # GA4_ID = "G-DFK7QQH1EH"  # 여기에 본인의 측정 ID를 입력
