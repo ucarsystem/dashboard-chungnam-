@@ -228,7 +228,7 @@ if 조회버튼 and user_input:
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
         course_filtered_graph = course_filtered
-        course_filtered_graph['코스별 평균 연비'] = course_filtered_graph['평균연비']
+        course_filtered_graph['평균연비'] = course_filtered_graph['코스별 평균 연비']
 
         # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
         colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
