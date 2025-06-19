@@ -110,6 +110,18 @@ div.grade-B, div.grade-C { color: orange !important; font-weight: bold !importan
 span.grade-D, span.grade-F { color: red !important; font-weight: bold !important; }
 div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; }
             
+.indicator-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+            
 .indicator-bar-bg {
   width: 100%;
   background-color: #eee !important;
