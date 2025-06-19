@@ -275,7 +275,7 @@ if 조회버튼 and user_input:
                 def render_indicator(title, value, avg, unit="", reverse=False):
                     diff = value - avg
                     is_higher = diff > 0 if not reverse else diff < 0
-                    label = "🔴⚠️ 평균보다 높습니다. 🔴" if is_higher else "🟢 평균보다 낮습니다. 🟢"
+                    label = "🔴 ⚠️ 평균보다 높습니다. 🔴" if is_higher else "🟢 평균보다 낮습니다. 🟢"
                     color = "#f87171" if is_higher else "#10b981"  # red or green
                     # bar_value = min(abs(value - avg) / avg * 100, 100) if avg != 0 else 0
                     # bar_value = min(abs(diff) * 100, 100) if avg !=0 else 0
