@@ -293,7 +293,7 @@ if 조회버튼 and user_input:
             df['연비'] = df['연비'].apply(lambda x: f"<span style='color:#4FC3F7; font-weight:bold;'>{x:.2f}</span>")
             df['급가속(회)'] = df['급가속'].apply(lambda x: f"{x:.2f}")
             df['급감속(회)'] = df['급감속'].apply(lambda x: f"{x:.2f}")
-            df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.1f}")
+            df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.0f}")
             df['공회전율(%)'] = df['공회전율(%)'].apply(lambda x: f"{x:.1f}%")
             df['저속구간(%)'] = df['저속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
             df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span style='color:green; font-weight:bold;'>{x*100:.1f}%</span>")
@@ -312,7 +312,7 @@ if 조회버튼 and user_input:
             course_filtered_display = format_course_table(course_filtered)
 
             course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=True)
-            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '등수', '공회전율(%)', '급가속(회)', '급감속(회)', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)']]
+            course_filtered_final = course_filtered_display[['노선','코스', '주행거리', '연비', '등수', '공회전율(%)', '급가속(회)', '급감속(회)', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)']]
 
             #출력
             st.write("""
@@ -435,7 +435,7 @@ if 조회버튼 and user_input:
         ### 4. 일별 주행기록 ###
         st.subheader("📊 일별 주행기록")
 
-        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '코스', '목표연비설정', '운전자번호']).agg({
+        daily_grouped = tang_filtered.groupby(['DATE', '차량번호4', '노선', '코스', '목표연비설정', '운전자번호']).agg({
             '주행거리(km)': 'sum',
             '연료소모량(m3': 'sum',
             '구간3비율(%) 40-60 시간(초)': 'sum',
@@ -484,7 +484,7 @@ if 조회버튼 and user_input:
 
             # 출력
             st.markdown(
-                daily_grouped[['주행일', '차량번호', '코스', '주행거리(km)', '연비', '등급', '안전지수(급가속)', '안전지수(급감속)', '경제속도구간(%)', '최고속도(km/h)']].to_html(index=False, escape=False),
+                daily_grouped[['주행일', '차량번호', '노선', '코스', '주행거리(km)', '연비', '등급', '안전지수(급가속)', '안전지수(급감속)', '경제속도구간(%)', '최고속도(km/h)']].to_html(index=False, escape=False),
                 unsafe_allow_html=True
             )
 
