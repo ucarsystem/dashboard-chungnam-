@@ -351,16 +351,14 @@ if 조회버튼 and user_input:
             x=course_filtered_graph['코스'],
             y=course_filtered_graph['내 연비'],
             name = '내 연비',
-            marker_color = '#6BA292'
+            marker_color = "#7FB3D5"
         ))
         fig.add_trace(go.Scatter(
             x=course_filtered_graph['코스'],
             y=course_filtered_graph['코스별 평균 연비'],
             name='코스별 평균연비',
             mode='lines+markers',
-            line=dict(color="#FF9E63", width=2, dash='dash'),
-            fill='tonexty',
-            fillcolor='rgba(255, 158, 99, 0.1)'
+            line=dict(color="#F5B041", width=2, dash='dash'),
         ))
         ##FF9E63
         fig.update_layout(
