@@ -337,10 +337,13 @@ if 조회버튼 and user_input:
         st.subheader("📈 나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
         course_filtered_graph = course_filtered
-        course_filtered_graph['평균연비'] = course_filtered_graph['코스별 평균 연비']
-        course_filtered_graph['내 연비'] = course_filtered_graph['연비']
+        course_filtered_graph['평균연비'] = round(course_filtered_graph['코스별 평균 연비'],2)
+        course_filtered_graph['내 연비'] = round(course_filtered_graph['연비'],2)
 
-        # course_filtered_graph['코스(노선)'] = course_filtered_graph['코스']
+        course_filtered_graph['코스(노선)'] = course_filtered_graph['코스'].astype(str) + "(" + course_filtered_graph['노선'].astype(str) + ")"
+
+        # 순서 정렬 (필요 시)
+        course_filtered_graph = course_filtered_graph.sort_values(by='코스')
 
         fig = go.Figure()
 
@@ -364,15 +367,15 @@ if 조회버튼 and user_input:
             title='',
             barmode='group',
             xaxis=dict(
-                title='코스',
-                tickmode='linear',
-                dtick=1,
+                title='코스(노선)',
+                type='category'
+                tickangle=-15,
                 gridcolor='#F0F0F0'
             ),
             yaxis=dict(
                 title='연비(km/ℓ)',
                 gridcolor='#F0F0F0',
-                range=[1, max(course_filtered_graph[['내 연비','코스별 평균 연비']].max()) + 1]
+                range=[1, max(course_filtered_graph[['내 연비','코스별 평균 연비']].max()) + 0.5]
             ),
             font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
