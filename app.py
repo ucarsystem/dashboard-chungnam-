@@ -286,7 +286,7 @@ if 조회버튼 and user_input:
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div class='indicator-bar-bg'>
-                            <div class='indicator-bar-fill' style= 'background-color: {color} !important;'></div>
+                            <div class='indicator-bar-fill' style= 'background-color: {color} !important; width: 100%;'></div>
                         </div>
                     </div>
                     """
