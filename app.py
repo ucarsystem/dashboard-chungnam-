@@ -124,21 +124,24 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
             
 .indicator-bar-bg {
   width: 100%;
-  background-color: #eee !important;
   height: 8px;
   border-radius: 4px;
   margin-top: 4px;
+  background-color: #eee !important;
   padding: 0;
   position: relative;
   overflow: hidden;
 }
 .indicator-bar-fill {
   height: 8px;
-  border-radius: 4px;
-  position: absolute;
+  display: block !important;
+  position: absolute !important;
+  /*position: absolute;*/
   left: 0;
   top: 0;
-  min-width: 5%; /* ✅ 최소 너비 설정으로 시각적으로 보이게 함 */
+  border-radius: 4px;
+  z-index: 2;
+  /*min-width: 5%; /* ✅ 최소 너비 설정으로 시각적으로 보이게 함 */*/
 }
 
 @media screen and (max-width: 600px) {
