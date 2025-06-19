@@ -133,6 +133,7 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
   overflow: hidden;
 }
 .indicator-bar-fill {
+  width: 100%;
   height: 8px;
   display: block !important;
   position: absolute !important;
@@ -278,7 +279,7 @@ if 조회버튼 and user_input:
                     is_higher = diff > 0 if not reverse else diff < 0
                     label = "⚠️ 평균보다 높습니다." if is_higher else "✅ 평균보다 낮습니다."
                     color = "#f87171" if is_higher else "#10b981"  # red or green
-                    bar_value = min(abs(value - avg) / avg * 100, 100) if avg != 0 else 0
+                    # bar_value = min(abs(value - avg) / avg * 100, 100) if avg != 0 else 0
                     # bar_value = min(abs(diff) * 100, 100) if avg !=0 else 0
 
                     return f"""
@@ -287,7 +288,7 @@ if 조회버튼 and user_input:
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div class='indicator-bar-bg'>
-                            <div class='indicator-bar-fill' style='width: {bar_value}%; background-color: {color};'></div>
+                            <div class='indicator-bar-fill' style= 'background-color: {color};'></div>
                         </div>
                     </div>
                     """
