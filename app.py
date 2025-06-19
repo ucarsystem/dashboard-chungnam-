@@ -113,7 +113,7 @@ if 조회버튼 and user_input:
         ### 1. 전체 지표 ###
         driver_name = df_id_check[df_id_check['ECO관리번호'] == driver_id].iloc[0]['성명']
 
-        st.subheader(f"📌{driver_name}님의 전체 주행 지표📌📌📌📌")
+        st.subheader(f"📌{driver_name}님의 전체 주행 지표📌")
         tang_filtered = df_tang[df_tang['운전자번호'] == driver_id].fillna('')
         driver_info = df_driver[df_driver['운전자ID'] == driver_id].fillna('')
 
@@ -284,7 +284,7 @@ if 조회버튼 and user_input:
         st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
 
         ### 2. 주행 코스별 운행기록 ###
-        st.subheader("🚌 코스별 나의 운행 데이터")
+        st.subheader("🚌🚌 코스별 나의 운행 데이터")
 
         #반환함수
         def format_course_table(df):
