@@ -133,16 +133,13 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
   overflow: hidden;
 }
 .indicator-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 8px;
-  display: block !important;
-  position: absolute !important;
-  /*position: absolute;*/
-  left: 0;
-  top: 0;
   border-radius: 4px;
-  z-index: 2;
-  /*min-width: 5%; /* ✅ 최소 너비 설정으로 시각적으로 보이게 함 */*/
+  z-index: 10;
 }
 
 @media screen and (max-width: 600px) {
@@ -288,7 +285,7 @@ if 조회버튼 and user_input:
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div class='indicator-bar-bg'>
-                            <div class='indicator-bar-fill' style= 'background-color: {color};'></div>
+                            <div class='indicator-bar-fill' style= 'background-color: {color} !important;'></div>
                         </div>
                     </div>
                     """
