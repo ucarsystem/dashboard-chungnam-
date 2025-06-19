@@ -355,11 +355,11 @@ if 조회버튼 and user_input:
             y=course_filtered_graph['코스별 평균 연비'],
             name='코스별 평균연비',
             mode='lines+markers',
-            line=dict(color='#FF9E63', width=2, dash='dash'),
+            line=dict(color="#BD9379", width=2, dash='dash'),
             fill='tonexty',
             fillcolor='rgba(255, 158, 99, 0.1)'
         ))
-
+        ##FF9E63
         fig.update_layout(
             title='',
             barmode='group',
