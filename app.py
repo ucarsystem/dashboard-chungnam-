@@ -102,13 +102,25 @@ button[kind="primary"], .stButton > button {
 span.eco-green { color: green !important; font-weight: bold !important; }
 span.red-bold { color: red !important; font-weight: bold !important; }
 span.orange-bold { color: orange !important; font-weight: bold !important; }
-span.blue-bold { color: #4FC3F7 !important; font-weight: bold !important; }
+span.blue-bold { color: blue !important; font-weight: bold !important; }
 span.grade-S, span.grade-A { color: green !important; font-weight: bold !important; }
 div.grade-S, div.grade-A { color: green !important; font-weight: bold !important; }
 span.grade-B, span.grade-C { color: orange !important; font-weight: bold !important; }
 div.grade-B, div.grade-C { color: orange !important; font-weight: bold !important; }
 span.grade-D, span.grade-F { color: red !important; font-weight: bold !important; }
 div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; }
+.indicator-bar-bg {
+  width: 100%;
+  background-color: #eee !important;
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  padding: 0;
+}
+.indicator-bar-fill {
+  height: 8px;
+  border-radius: 4px;
+}
 
 @media screen and (max-width: 600px) {
   html, body {
@@ -247,16 +259,26 @@ if 조회버튼 and user_input:
                     bar_value = min(abs(diff) * 100, 100) if avg !=0 else 0
 
                     return f"""
-
-                    <div style='flex: 1; min-width: 200px; padding: 20px; margin: 5px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; text-align: center;'>
-                        <div style='font-size: 20px;font-weight: bold;'>{title}</div>
+                    <div class='indicator-box'>
+                        <div style='font-size: 20px; font-weight: bold;'>{title}</div>
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
-                        <div style='width: 100%; background-color: #eee; height: 8px; border-radius: 4px; margin-top: 4px;'>
-                            <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px; margin-top: 4px;'></div>
+                        <div class='indicator-bar-bg'>
+                            <div class='indicator-bar-fill' style='width: {bar_value}%; background-color: {color};'></div>
                         </div>
                     </div>
                     """
+                    # return f"""
+
+                    # <div style='flex: 1; min-width: 200px; padding: 20px; margin: 5px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; text-align: center;'>
+                    #     <div style='font-size: 20px;font-weight: bold;'>{title}</div>
+                    #     <div style='font-size: 40px;'>{value}{unit}</div>
+                    #     <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
+                    #     <div style='width: 100%; background-color: #eee; height: 8px; border-radius: 4px; margin-top: 4px;'>
+                    #         <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px; margin-top: 4px;'></div>
+                    #     </div>
+                    # </div>
+                    # """
                 
                 idle_avg = round(driver_info_df['노선평균공회전']*100)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
