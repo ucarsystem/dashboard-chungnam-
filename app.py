@@ -75,15 +75,17 @@ input::placeholder {
 
 /* 기본 버튼 스타일 수정 */
 button[kind="primary"], .stButton > button {
-  background-color: #222 !important;
-  color: white !important;
-  border: none !important;
-  padding: 0.6rem 1.2rem !important;
+  background-color: transparent !important;
+  color: #222 !important;
+  border: 2px solid #222 !important;
+  padding: 0.5rem 1.2rem !important;
   font-weight: bold !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
 }
 button[kind="primary"]:hover, .stButton > button:hover {
-  background-color: #444 !important;
+  background-color: #f4f4f4 !important;
+  border-color: #444 !important;
+  color: #000 !important;
 }
   
 /* Plotly 모바일 차트 스타일 */
