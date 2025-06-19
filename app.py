@@ -133,6 +133,7 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
   overflow: hidden;
 }
 .indicator-bar-fill {
+  display: block !important;
   position: absolute;
   top: 0;
   left: 0;
