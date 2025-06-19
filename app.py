@@ -77,15 +77,10 @@ input::placeholder {
 button[kind="primary"], .stButton > button {
   background-color: transparent !important;
   color: #222 !important;
-  border: 2px solid #222 !important;
+  border: 2px solid #666 !important;
   padding: 0.5rem 1.2rem !important;
   font-weight: bold !important;
   border-radius: 8px !important;
-}
-button[kind="primary"]:hover, .stButton > button:hover {
-  background-color: #f4f4f4 !important;
-  border-color: #444 !important;
-  color: #000 !important;
 }
   
 /* Plotly 모바일 차트 스타일 */
@@ -102,7 +97,19 @@ button[kind="primary"]:hover, .stButton > button:hover {
   fill: #333 !important;
   font-size: 12px !important;
 }
-            
+
+/* ✅ 강조 클래스 예외 처리 - 여기에선 !important로 덮어쓰기 허용 */
+span.eco-green { color: green !important; font-weight: bold !important; }
+span.red-bold { color: red !important; font-weight: bold !important; }
+span.orange-bold { color: orange !important; font-weight: bold !important; }
+span.blue-bold { color: #4FC3F7 !important; font-weight: bold !important; }
+span.grade-S, span.grade-A { color: green !important; font-weight: bold !important; }
+div.grade-S, div.grade-A { color: green !important; font-weight: bold !important; }
+span.grade-B, span.grade-C { color: orange !important; font-weight: bold !important; }
+div.grade-B, div.grade-C { color: orange !important; font-weight: bold !important; }
+span.grade-D, span.grade-F { color: red !important; font-weight: bold !important; }
+div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; }
+
 @media screen and (max-width: 600px) {
   html, body {
     font-size: 15px !important;
@@ -163,12 +170,13 @@ if 조회버튼 and user_input:
 
         #등급에 따른 폰트색깔 함수
         def get_grade_color(this_grade):
-            if this_grade in ["S", "A"]:
-                return "green"
-            elif this_grade in ["B", "C"]:
-                return "orange"
-            else:
-                return "red"
+            return f"<span class='grade-{this_grade}'>{this_grade}</span>"
+            # if this_grade in ["S", "A"]:
+            #     return "green"
+            # elif this_grade in ["B", "C"]:
+            #     return "orange"
+            # else:
+            #     return "red"
 
         if not driver_info.empty:
             driver_info_df = driver_info.iloc[0]
@@ -205,13 +213,15 @@ if 조회버튼 and user_input:
 
             if not driver_info.empty:
                 driver_info_df =  driver_info.iloc[0]
-                grade_color = get_grade_color(driver_info_df['등급'])
+                # grade_color = get_grade_color(driver_info_df['등급'])
+                grade_value = driver_info_df['등급']
+                grade_class = f"grade-{grade_value}"
 
                 st.markdown(f"""
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>6월 등급</div>
-                    <div style='font-size: 40px; color: {grade_color}; font-weight: bold;'>{driver_info_df['등급']}</div>
+                    <div class='{grade_class}' style='font-size: 40px; font-weight: bold;'>{grade_value}</div>
                 </div>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>주행거리</div>
@@ -223,6 +233,8 @@ if 조회버튼 and user_input:
                 </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+                #<div style='font-size: 40px; color: {grade_color}; font-weight: bold;'>{driver_info_df['등급']}</div>
 
                 st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
 
@@ -304,13 +316,14 @@ if 조회버튼 and user_input:
         def format_course_table(df):
             df = df.copy()
             df['주행거리'] = df['주행거리'].apply(lambda x: f"{int(x):,} km")
-            df['연비'] = df['연비'].apply(lambda x: f"<span style='color:#4FC3F7; font-weight:bold;'>{x:.2f}</span>")
+            df['연비'] = df['연비'].apply(lambda x: f"<span class='blue-bold'>{x:.2f}</span>")
             df['급가속(회)'] = df['급가속'].apply(lambda x: f"{x:.2f}")
             df['급감속(회)'] = df['급감속'].apply(lambda x: f"{x:.2f}")
             df['평균속도'] = df['평균속도'].apply(lambda x: f"{x:.0f}")
             df['공회전율(%)'] = df['공회전율(%)'].apply(lambda x: f"{x:.1f}%")
             df['저속구간(%)'] = df['저속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
-            df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span style='color:green; font-weight:bold;'>{x*100:.1f}%</span>")
+            df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span class='eco-green'>{x*100:.1f}%</span>")
+            # df['경제구간(%)'] = df['경제구간(%)'].apply(lambda x: f"<span style='color:green; font-weight:bold;'>{x*100:.1f}%</span>")
             df['과속구간(%)'] = df['과속구간(%)'].apply(lambda x: f"{x*100:.1f}%")
             df['등수'] = df['등수'].apply(lambda x: f"<b>{x}등</b>")
             return df
@@ -490,10 +503,11 @@ if 조회버튼 and user_input:
             daily_grouped['차량번호'] = daily_grouped['차량번호4']
             daily_grouped['코스'] = daily_grouped['코스'].astype(int)
             daily_grouped['주행거리(km)'] = daily_grouped['주행거리(km)'].apply(lambda x: f"{int(x):,} km")
-            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<b><span style='color:#4FC3F7;'>{x:.2f}</span></b>")
+            daily_grouped['연비'] = daily_grouped['연비'].apply(lambda x: f"<span class='blue-bold'>{x:.2f}</span>")
             daily_grouped['안전지수(급가속)'] = daily_grouped['안전지수(급가속)'].apply(lambda x: f"<b>{x:.2f}</b>")
             daily_grouped['안전지수(급감속)'] = daily_grouped['안전지수(급감속)'].apply(lambda x: f"<b>{x:.2f}</b>")
-            daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<b><span style='color:{get_grade_color(x)};'>{x}</span></b>")
+            daily_grouped['등급'] = daily_grouped['등급'].apply(get_grade_color)
+            # daily_grouped['등급'] = daily_grouped['등급'].apply(lambda x: f"<span style='color:{get_grade_color(x)};'>{x}</span>")
             daily_grouped['경제속도구간(%)'] = daily_grouped['경제속도구간(%)'].apply(lambda x: f"{x:.0f}%" if pd.notnull(x) else '-')
 
             # 출력
