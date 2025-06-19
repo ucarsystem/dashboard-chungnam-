@@ -343,18 +343,21 @@ if 조회버튼 and user_input:
         # course_filtered_graph['코스(노선)'] = course_filtered_graph['코스']
 
         fig = go.Figure()
+
         fig.add_trace(go.Bar(
             x=course_filtered_graph['코스'],
             y=course_filtered_graph['내 연비'],
             name = '내 연비',
-            marker_color = '#4C78A8'
+            marker_color = '#6BA292'
         ))
         fig.add_trace(go.Scatter(
             x=course_filtered_graph['코스'],
             y=course_filtered_graph['코스별 평균 연비'],
             name='코스별 평균연비',
             mode='lines+markers',
-            line=dict(color='red', width=2)
+            line=dict(color='#FF9E63', width=2, dash='dash'),
+            fill='tonexty',
+            fillcolor='rgba(255, 158, 99, 0.1)'
         ))
 
         fig.update_layout(
@@ -369,8 +372,7 @@ if 조회버튼 and user_input:
             yaxis=dict(
                 title='연비(km/ℓ)',
                 gridcolor='#F0F0F0',
-                rangemode='tozero',
-                range=[1, max(course_filtered[['내 연비','코스별 평균 연비']].max()) + 1]
+                range=[1, max(course_filtered_graph[['내 연비','코스별 평균 연비']].max()) + 1]
             ),
             font=dict(size=14, family='Arial, sans-serif'),
             legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
