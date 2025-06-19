@@ -32,7 +32,7 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="wide")
+st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
 
 
 #방문자 조회 코드
@@ -334,7 +334,7 @@ if 조회버튼 and user_input:
         st.markdown("<div style='height:30px;'></div>", unsafe_allow_html=True)
 
         ### 3. 개인 vs 코스평균 비교 (연비) ###
-        st.subheader("📈 📈나의 연비 vs 코스 평균 연비")
+        st.subheader("📈나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
         course_filtered_graph = course_filtered
         course_filtered_graph['평균연비'] = round(course_filtered_graph['코스별 평균 연비'],2)
@@ -348,13 +348,13 @@ if 조회버튼 and user_input:
         fig = go.Figure()
 
         fig.add_trace(go.Bar(
-            x=course_filtered_graph['코스'],
+            x=course_filtered_graph['코스(노선)'],
             y=course_filtered_graph['내 연비'],
             name = '내 연비',
             marker_color = "#7FB3D5"
         ))
         fig.add_trace(go.Scatter(
-            x=course_filtered_graph['코스'],
+            x=course_filtered_graph['코스(노선)'],
             y=course_filtered_graph['코스별 평균 연비'],
             name='코스별 평균연비',
             mode='lines+markers',
