@@ -51,26 +51,69 @@ st.set_page_config(page_title="충남고속 연비 대시보드", layout="center
 #     unsafe_allow_html=True
 # )
 
+#font-size: 14px !important;
+
 st.markdown("""
 <style>
+/*전체 기본 폰트 색 및 배경*/
+body, div, span, p, table, td, th, label, input, textarea {
+  color: #222 !important;
+  background-color: #FFFFFF !important;
+}
+  
+  /*제목 강조 */
+h1, h2, h3, h4, h5 {
+  color: #222 !important;
+  font-weight: bold !important;
+}
+
+/*입력창 placeholder 대비 강화*/
+input::placeholder {
+  color: #666 !important;
+  opacity: 1 !important;
+}
+
+/* 기본 버튼 스타일 수정 */
+button[kind="primary"], .stButton > button {
+  background-color: #222 !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: bold !important;
+  border-radius: 6px !important;
+  width: 100%;
+}
+button[kind="primary"]:hover, .stButton > button:hover {
+  background-color: #444 !important;
+}
+  
+/* Plotly 모바일 차트 스타일 */
+.js-plotly-plot .plotly .main-svg {
+  font-size: 14px !important;
+  color: #333 !important;
+}
+
+.legend text, .xtick text, .ytick text {
+  fill: #333 !important; /* 차트 글씨색을 더 진하게 */
+}
+
+.main-svg .xtick text, .main-svg .ytick text, .main-svg .legend text {
+  fill: #333 !important;
+  font-size: 12px !important;
+}
+            
 @media screen and (max-width: 600px) {
-  body, div, span, p, table, td, th {
-    font-size: 14px !important;
-    background-color: #FFFFFF !important;
+  html, body {
+    font-size: 15px !important;
   }
 
-  .js-plotly-plot .plotly .main-svg {
-    font-size: 14px !important;
-    color: #333333 !important;
+  input {
+    font-size: 16px !important;
   }
 
-  .legend text, .xtick text, .ytick text {
-    fill: #333333 !important; /* 차트 글씨색을 더 진하게 */
-  }
-
-  .main-svg .xtick text, .main-svg .ytick text, .main-svg .legend text {
-    fill: #333333 !important;
-    font-size: 12px !important;
+  .stButton > button {
+    width: 100% !important;
+    font-size: 16px !important;
   }
 }
 </style>
@@ -228,38 +271,6 @@ if 조회버튼 and user_input:
                 st.markdown(excel_html, unsafe_allow_html=True)
                 st.markdown(break_html, unsafe_allow_html=True)
                 st.markdown(speed_html, unsafe_allow_html=True)
-
-
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>{int(month_input)}월 등급</div>
-                #         <div style='font-size: 48px; font-weight: bold; color: {grade_color};'>{driver_info_df['등급']}</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>주행거리</div>
-                #         <div>{driver_info_df['주행거리(km)']:,.0f} km</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>연비</div>
-                #         <div>{driver_info_df['연비(km/m3)']:.2f}</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>공회전율</div>
-                #         <div>{driver_info_df['공회전율(%)']:.1f}%</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>안전지수(급가속)</div>
-                #         <div>{driver_info_df['급가속(회/100km)']:.2f}</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>안전지수(급감속)</div>
-                #         <div>{driver_info_df['급감속(회/100km)']:.2f}</div>
-                #     </div>
-                #     <div style='flex: 1; min-width: 120px; text-align:center;'>
-                #         <div style='font-weight: bold;'>최고속도</div>
-                #         <div>{driver_info_df['최고속도(km)']} km/h</div>
-                #     </div>
-                # </div>
-                # """, unsafe_allow_html=True)
 
                 # col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
                 # with col1:
