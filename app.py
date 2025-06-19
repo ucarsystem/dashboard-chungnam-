@@ -284,7 +284,7 @@ if 조회버튼 and user_input:
         st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)  # 간격 조절 (20px → 원하면 더 키워도 됨)
 
         ### 2. 주행 코스별 운행기록 ###
-        st.subheader("🚌🚌 코스별 나의 운행 데이터")
+        st.subheader("🚌 코스별 나의 운행 데이터")
 
         #반환함수
         def format_course_table(df):
