@@ -81,7 +81,6 @@ button[kind="primary"], .stButton > button {
   padding: 0.6rem 1.2rem !important;
   font-weight: bold !important;
   border-radius: 6px !important;
-  width: 100%;
 }
 button[kind="primary"]:hover, .stButton > button:hover {
   background-color: #444 !important;
@@ -240,7 +239,7 @@ if 조회버튼 and user_input:
                         <div style='font-size: 40px;'>{value}{unit}</div>
                         <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
                         <div style='width: 100%; background-color: #eee; height: 8px; border-radius: 4px; margin-top: 4px;'>
-                            <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px;'></div>
+                            <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px; margin-top: 4px;'></div>
                         </div>
                     </div>
                     """
