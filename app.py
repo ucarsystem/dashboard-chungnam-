@@ -334,7 +334,7 @@ if 조회버튼 and user_input:
         st.markdown("<div style='height:30px;'></div>", unsafe_allow_html=True)
 
         ### 3. 개인 vs 코스평균 비교 (연비) ###
-        st.subheader("📈 나의 연비 vs 코스 평균 연비")
+        st.subheader("📈 📈나의 연비 vs 코스 평균 연비")
         #코스별 평균연비
         course_filtered_graph = course_filtered
         course_filtered_graph['평균연비'] = round(course_filtered_graph['코스별 평균 연비'],2)
