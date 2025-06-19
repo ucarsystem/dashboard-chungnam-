@@ -312,7 +312,7 @@ if 조회버튼 and user_input:
             course_filtered_display = format_course_table(course_filtered)
 
             course_filtered_display = course_filtered_display.sort_values(by='주행거리', ascending=True)
-            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '등수', '공회전율(%)', '급가속', '급감속', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)']]
+            course_filtered_final = course_filtered_display[['코스', '주행거리', '연비', '등수', '공회전율(%)', '급가속(회)', '급감속(회)', '평균속도', '최고속도', '저속구간(%)', '경제구간(%)', '과속구간(%)']]
 
             #출력
             st.write("""
@@ -358,7 +358,7 @@ if 조회버튼 and user_input:
             y=course_filtered_graph['코스별 평균 연비'],
             name='코스별 평균연비',
             mode='lines+markers',
-            line=dict(color="#F5B041", width=2, dash='dash'),
+            line=dict(color="#E73A3A", width=2, dash='dash'),
         ))
         ##FF9E63
         fig.update_layout(
