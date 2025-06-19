@@ -368,7 +368,7 @@ if 조회버튼 and user_input:
             barmode='group',
             xaxis=dict(
                 title='코스(노선)',
-                type='category'
+                type='category',
                 tickangle=-15,
                 gridcolor='#F0F0F0'
             ),
