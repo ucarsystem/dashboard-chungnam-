@@ -109,6 +109,7 @@ span.grade-B, span.grade-C { color: orange !important; font-weight: bold !import
 div.grade-B, div.grade-C { color: orange !important; font-weight: bold !important; }
 span.grade-D, span.grade-F { color: red !important; font-weight: bold !important; }
 div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; }
+            
 .indicator-bar-bg {
   width: 100%;
   background-color: #eee !important;
@@ -116,10 +117,15 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
   border-radius: 4px;
   margin-top: 4px;
   padding: 0;
+  position: relative;
+  overflow: hidden;
 }
 .indicator-bar-fill {
   height: 8px;
   border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 @media screen and (max-width: 600px) {
