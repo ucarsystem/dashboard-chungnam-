@@ -387,7 +387,7 @@ if 조회버튼 and user_input:
             df['등수'] = df['등수'].apply(lambda x: f"<b>{x}등</b>")
             return df
         
-        course_filtered = df_c ourse_driver[df_course_driver['운전자번호'] == driver_id].fillna('')
+        course_filtered = df_course_driver[df_course_driver['운전자번호'] == driver_id].fillna('')
 
         if not course_filtered.empty:
             course_filtered['저속구간(%)'] = course_filtered['구간1비율'] + course_filtered['구간2비율']
