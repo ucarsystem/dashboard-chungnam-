@@ -230,9 +230,9 @@ if 조회버튼 and user_input:
             rep_course = int(driver_info_df['주코스'])
             rep_route = driver_info_df['주노선']
 
-            st.markdown(f"""
-            <div class="flicker-text">🔥 최고속도 초과 주의!</div>
-            """, unsafe_allow_html=True)
+            # st.markdown(f"""
+            # <div class="flicker-text">🔥 최고속도 초과 주의!</div>
+            # """, unsafe_allow_html=True)
 
             st.markdown(f"""
             <div style='display: flex; align-items: center; gap:12px'>
