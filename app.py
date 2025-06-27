@@ -172,7 +172,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-user_input = st.text_input("운전자번호(ECO모니터 입력 아이디(핸드폰번호 뒤 4자리)를 입력하세요", "")
+user_input = st.text_input("운전자번호(ECO모니터 입력 아이디 / 핸드폰번호 뒤 4자리)를 입력하세요", "")
 조회버튼 = st.button("조회하기")
 
 if 조회버튼 and user_input:
