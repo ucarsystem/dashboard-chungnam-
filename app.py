@@ -35,24 +35,6 @@ month_input = 6
 st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
 
 
-#방문자 조회 코드
-# GA4_ID = "G-DFK7QQH1EH"  # 여기에 본인의 측정 ID를 입력
-# st.markdown(
-#     f"""
-#     <!-- Global site tag (gtag.js) - Google Analytics -->
-#     <script async src="https:                                                                                                                                                                                                                                                                                                                                                                                                                  //www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
-#     <script>
-#       window.dataLayer = window.dataLayer || [];
-#       function gtag(){{dataLayer.push(arguments);}}
-#       gtag('js', new Date());
-#       gtag('config', '{GA4_ID}');
-#     </script>
-#     """,
-#     unsafe_allow_html=True
-# )
-
-#font-size: 14px !important;
-
 st.markdown("""
 <style>
 /*전체 기본 폰트 색 및 배경*/
@@ -189,12 +171,6 @@ st.markdown(f"""
     <hr style='border:1px solid #ccc; margin-top:10px;'>
 """, unsafe_allow_html=True)
 
-# col1, col2 = st.columns([1, 8])
-# with col1:
-#     st.image("./logo.png", width=80)  # 로고 파일 경로 및 크기 설정
-
-# with col2:
-#     st.markdown("<h1 style='margin-bottom:0;'>충남고속_나만의 연비 대시보드</h1>", unsafe_allow_html=True)
 
 user_input = st.text_input("운전자번호를 입력하세요", "")
 조회버튼 = st.button("조회하기")
@@ -294,8 +270,32 @@ if 조회버튼 and user_input:
                     is_higher = diff > 0 if not reverse else diff < 0
                     label = "🔴 ⚠️ 평균보다 높습니다. 🔴" if is_higher else "🟢 평균보다 낮습니다. 🟢"
                     color = "#f87171" if is_higher else "#10b981"  # red or green
-                    # bar_value = min(abs(value - avg) / avg * 100, 100) if avg != 0 else 0
-                    # bar_value = min(abs(diff) * 100, 100) if avg !=0 else 0
+
+                    if "공회전율(%)" in title:
+                        label = (
+                            "🔴 연료낭비 중! 시동 건 후 바로 출발하기! 🔴" if is_higher 
+                            else "🟢 실전 연비 마스터! 나무 5그루를 살렸어요! 🌳🟢"
+                        )
+                    elif "안전지수(급가속)" in title:
+                        label = (
+                            "🔴 급출발 금지! 탑승객도 놀라고 연료도 새요! 🔴" if is_higher 
+                            else "🟢 승차감 최상! 고객 만족도 만점입니다! 👏"
+                        )
+                    elif "안전지수(급감속)" in title:
+                        label = (
+                            "⚠️ 급브레이크 위험! 미리 감속하세요!" if is_higher 
+                            else "🟢 예측운전 최고! 안전하게 감속했어요 👍"
+                        )
+                    elif "최고속도(km)" in title:
+                        label = (
+                            "🚨 속도도 좋지만 안전이 먼저입니다!" if is_higher 
+                            else "🟢 속도 제어까지 완벽! 모범 운전!"
+                        )
+                    # 기본 멘트
+                      # label = (
+                      #     "⚠️ 평균보다 높습니다." if is_higher 
+                      #     else "✅ 평균보다 낮습니다."
+                      # )
 
                     return f"""
                     <div class='indicator-box'>
@@ -305,17 +305,6 @@ if 조회버튼 and user_input:
                     </div>
                     """
 
-                    # return f"""
-
-                    # <div style='flex: 1; min-width: 200px; padding: 20px; margin: 5px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; text-align: center;'>
-                    #     <div style='font-size: 20px;font-weight: bold;'>{title}</div>
-                    #     <div style='font-size: 40px;'>{value}{unit}</div>
-                    #     <div style='margin-top: 6px; font-size: 14px; font-weight: bold;'>{label}</div>
-                    #     <div style='width: 100%; background-color: #eee; height: 8px; border-radius: 4px; margin-top: 4px;'>
-                    #         <div style='height: 8px; background: {color}; width: {bar_value}%; border-radius: 4px; margin-top: 4px;'></div>
-                    #     </div>
-                    # </div>
-                    # """
                 
                 idle_avg = round(driver_info_df['노선평균공회전']*100)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
@@ -332,15 +321,6 @@ if 조회버튼 and user_input:
                 break_html = render_indicator("안전지수(급감속)", my_break, break_avg,"회")
                 speed_html = render_indicator("최고속도(km)", my_speed, maxspeed_avg, " km/h")
 
-                #출력
-                # indicator_block = f"""
-                # <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
-                #     {idle_html}
-                #     {excel_html}
-                #     {break_html}
-                #     {speed_html}
-                # </div>
-                # """
                 st.markdown(idle_html, unsafe_allow_html=True)
                 st.markdown(excel_html, unsafe_allow_html=True)
                 st.markdown(break_html, unsafe_allow_html=True)
@@ -469,54 +449,6 @@ if 조회버튼 and user_input:
         )
 
         st.plotly_chart(fig, use_container_width=True)
-
-
-        # 색상 정의 (로고 컬러에 맞춰 주황계열 + 보조색)
-        # colors = ['#4C78A8', '#9FB2C6']  # 주황 계열 (로고 색과 유사)
-
-        # # 막대그래프
-        # fig = px.bar(
-        #     course_filtered_graph,
-        #     x='코스',
-        #     y=['내 연비', '평균연비'],
-        #     barmode='group',
-        #     labels={'value':'연비 (km/ℓ)', 'variable':'결과'},
-        #     color_discrete_sequence=colors
-        # )
-
-        # # X축 눈금 표시
-        # fig.update_xaxes(
-        #     tickmode='linear',  # 모든 코스 번호 다 보여주기
-        #     dtick=1,            # 1단위 간격으로
-        #     title_text='코스',
-        #     gridcolor='#F0F0F0',
-        #     zeroline=False
-        # )
-
-        # # Y축 레이블
-        # fig.update_yaxes(
-        #     title_text='연비(km/ℓ)',
-        #     showgrid=True,
-        #     gridcolor='#F0F0F0',
-        #     zeroline=False
-        # )
-
-        # # 레이아웃 스타일
-        # fig.update_layout(
-        #     title = '',
-        #     title_x=0.5,
-        #     font=dict(size=14, family='Arial, sans-serif'),
-        #     legend=dict(title='', orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-        #     plot_bgcolor='white',
-        #     paper_bgcolor='white',
-        #     margin=dict(l=40, r=40, t=60, b=40),
-        # )
-
-        # # 출력
-        # st.plotly_chart(fig, use_container_width=True)
-
-        # fig = px.bar(course_filtered, x='코스', y=['연비', '평균연비'], barmode='group', labels={'value':'연비', 'variable':'코스'})
-        # st.plotly_chart(fig)
 
         ### 4. 일별 주행기록 ###
         st.subheader("📊 일별 주행기록")
