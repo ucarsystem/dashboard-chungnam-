@@ -32,7 +32,7 @@ df_id_check = pd.read_excel(id_check_path)
 #추후 사용
 month_input = 6
 
-st.set_page_config(page_title="충남고속 연비 대시보드", layout="centered")
+st.set_page_config(page_title="충남고속 운행 대시보드", layout="centered")
 
 
 st.markdown("""
@@ -166,13 +166,13 @@ logo_base64 = get_base64_image("./logo.png")
 st.markdown(f"""
     <div style='display: flex; align-items: center; gap: 10px;'>
         <img src="data:image/png;base64,{logo_base64}" style='height:32px; width:auto;'>
-        <h1 style='margin:0; font-size:32px;'>충남고속_나만의 연비 대시보드</h1>
+        <h1 style='margin:0; font-size:32px;'>충남고속_나만의 운행 대시보드</h1>
     </div>
     <hr style='border:1px solid #ccc; margin-top:10px;'>
 """, unsafe_allow_html=True)
 
 
-user_input = st.text_input("운전자번호를 입력하세요", "")
+user_input = st.text_input("운전자번호(ECO모니터 입력 아이디(핸드폰번호 뒤 4자리)를 입력하세요", "")
 조회버튼 = st.button("조회하기")
 
 if 조회버튼 and user_input:
@@ -243,11 +243,21 @@ if 조회버튼 and user_input:
                 grade_value = driver_info_df['등급']
                 grade_class = f"grade-{grade_value}"
 
+                grade_text_map = {
+                    "S": "S(최우수)",
+                    "A": "A(우수)",
+                    "B": "B(양호)",
+                    "C": "C(보통)",
+                    "D": "D(관리필요)",
+                    "F": "F(관리필요)"
+                }
+                grade_text = grade_text_map.get(grade_value, grade_value)
+
                 st.markdown(f"""
                 <div style='display: flex; justify-content: space-around; padding: 20px; border: 1px solid #ccc; border-radius: 8px;'>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>6월 등급</div>
-                    <div class='{grade_class}' style='font-size: 40px; font-weight: bold;'>{grade_value}</div>
+                    <div class='{grade_class}' style='font-size: 40px; font-weight: bold;'>{grade_text}</div>
                 </div>
                 <div style='text-align:center;'>
                     <div style='font-weight: bold;'>주행거리</div>
@@ -283,13 +293,13 @@ if 조회버튼 and user_input:
                         )
                     elif "안전지수(급감속)" in title:
                         label = (
-                            "⚠️ 급브레이크 위험! 미리 감속하세요!" if is_higher 
+                            "⚠️ 급브레이크 위험! 미리 감속하세요! ⚠️" if is_higher 
                             else "🟢 예측운전 최고! 안전하게 감속했어요 👍"
                         )
                     elif "최고속도(km)" in title:
                         label = (
                             "🚨 속도도 좋지만 안전이 먼저입니다!" if is_higher 
-                            else "🟢 속도 제어까지 완벽! 모범 운전!"
+                            else "🟢 속도 제어까지 완벽! 모범 운전! 🟢"
                         )
                     # 기본 멘트
                       # label = (
@@ -305,7 +315,6 @@ if 조회버튼 and user_input:
                     </div>
                     """
 
-                
                 idle_avg = round(driver_info_df['노선평균공회전']*100)
                 excel_avg = round(driver_info_df['노선평균안전지수(급가속)'],2)
                 break_avg = round(driver_info_df['노선평균안전지수(급감속)'],2)
