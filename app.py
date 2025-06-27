@@ -1,4 +1,4 @@
-import streamlit as st
+                                                                                                                                                                                                                  import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import os
@@ -40,7 +40,7 @@ st.set_page_config(page_title="충남고속 연비 대시보드", layout="center
 # st.markdown(
 #     f"""
 #     <!-- Global site tag (gtag.js) - Google Analytics -->
-#     <script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
+#     <script async src="https:                                                                                                                                                                                                                                                                                                                                                                                                                  //www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>
 #     <script>
 #       window.dataLayer = window.dataLayer || [];
 #       function gtag(){{dataLayer.push(arguments);}}
@@ -157,6 +157,19 @@ div.grade-D, div.grade-F { color: red !important; font-weight: bold !important; 
     font-size: 16px !important;
   }
 }
+
+@keyframes flicker {
+  0%   {opacity: 1;}
+  50%  {opacity: 0.3;}
+  100% {opacity: 1;}
+}
+
+.flicker-text {
+  font-size: 30px;
+  font-weight: bold;
+  color: #f39c12;
+  animation: flicker 1s infinite;
+}
 </style>
 """, unsafe_allow_html=True)
 #출력시작
@@ -216,6 +229,9 @@ if 조회버튼 and user_input:
             rep_car = driver_info_df['주차량']
             rep_course = int(driver_info_df['주코스'])
             rep_route = driver_info_df['주노선']
+
+            <div class="flicker-text">🔥 최고속도 초과 주의!</div>
+            """, unsafe_allow_html=True)
 
             st.markdown(f"""
             <div style='display: flex; align-items: center; gap:12px'>
@@ -370,7 +386,7 @@ if 조회버튼 and user_input:
             df['등수'] = df['등수'].apply(lambda x: f"<b>{x}등</b>")
             return df
         
-        course_filtered = df_course_driver[df_course_driver['운전자번호'] == driver_id].fillna('')
+        course_filtered = df_c ourse_driver[df_course_driver['운전자번호'] == driver_id].fillna('')
 
         if not course_filtered.empty:
             course_filtered['저속구간(%)'] = course_filtered['구간1비율'] + course_filtered['구간2비율']
